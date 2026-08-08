@@ -5,7 +5,9 @@ import test from "node:test";
 const root = new URL("../dist/client/", import.meta.url);
 const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
-const expectedSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.yiita.com").replace(/\/$/, "");
+const expectedSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.yiita.com")
+  .replace(/^http:\/\/(?=(?:www\.)?yiita\.com(?:\/|$))/i, "https://")
+  .replace(/\/$/, "");
 const expectedAssetPrefix = process.env.NEXT_PUBLIC_SITE_URL ? expectedSiteUrl : "";
 const artifactUrl = (file) => new URL(file.replaceAll("%", "%25"), root);
 
@@ -27,6 +29,9 @@ test("exports the bilingual Yiita home pages", async () => {
 });
 
 test("keeps framework assets at the deployment artifact root", async () => {
+  const html = await readFile(new URL("index.html", root), "utf8");
+  assert.ok(html.includes(`href="${expectedAssetPrefix}/_next/static/`));
+  assert.doesNotMatch(html, /http:\/\/(?:www\.)?yiita\.com/i);
   await access(new URL("_next/static/", root));
   if (basePath) {
     await assert.rejects(access(new URL(`${basePath.slice(1)}/_next/static/`, root)));

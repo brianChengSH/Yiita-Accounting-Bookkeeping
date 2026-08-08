@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.yiita.com").replace(/\/$/, "");
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.yiita.com")
+  .replace(/^http:\/\/(?=(?:www\.)?yiita\.com(?:\/|$))/i, "https://")
+  .replace(/\/$/, "");
 const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
 const favicon32Url = `${basePath}/favicon-32.png`;
