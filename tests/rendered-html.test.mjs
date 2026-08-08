@@ -66,3 +66,19 @@ test("contact form offers webmail and copy fallbacks", async () => {
   assert.match(html, /使用裝置 Email/);
   assert.match(html, /複製 Email 內容/);
 });
+
+test("English navigation exposes both dropdowns and an English GPTs page", async () => {
+  const en = await readFile(new URL("en.html", root), "utf8");
+  assert.equal((en.match(/class="navGroup englishNavGroup"/g) || []).length, 2);
+  assert.match(en, /Registration Services/);
+  assert.match(en, /Incorporation Documents/);
+  assert.match(en, /Business Types/);
+  assert.match(en, /Foreign Setup Process/);
+  assert.match(en, /Tax Planning/);
+  assert.ok(en.includes(`href="${basePath}/en/accounting-gpts"`));
+
+  const gpts = await readFile(new URL("en/accounting-gpts.html", root), "utf8");
+  assert.match(gpts, /GPTs Q&amp;A/);
+  assert.match(gpts, /At Yiita Accounting &amp; Bookkeeping Service/);
+  assert.doesNotMatch(gpts, /GPTs 問與答|台灣會計小幫手/);
+});

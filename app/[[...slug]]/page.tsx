@@ -6,7 +6,11 @@ const routes = [
   ["business-types"], ["foreign-invest-comparison"], ["startup-register"],
   ["foreign-register-process"], ["tax-planning"], ["accounting-gpts"],
   ["contact-us"], ["pricing"], ["en"], ["en", "services"],
-  ["en", "foreign-register-process"], ["en", "contact-us"],
+  ["en", "registeration-services"], ["en", "company-register-docs"],
+  ["en", "business-types"], ["en", "registeration-process"],
+  ["en", "foreign-invest-comparison"], ["en", "startup-register"],
+  ["en", "foreign-register-process"], ["en", "tax-planning"],
+  ["en", "accounting-gpts"], ["en", "contact-us"],
 ];
 
 export function generateStaticParams() {
@@ -24,10 +28,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug?: st
     "/foreign-register-process": "外資來台設立流程", "/tax-planning": "稅務規劃",
     "/accounting-gpts": "GPTs 問與答", "/contact-us": "聯絡乙達", "/pricing": "服務收費",
   };
+  const englishNames: Record<string, string> = {
+    "/": "Home", "/services": "Services", "/registeration-services": "Registration Services",
+    "/company-register-docs": "Incorporation Documents", "/business-types": "Business Types",
+    "/registeration-process": "Incorporation Process", "/foreign-invest-comparison": "Foreign Investment",
+    "/startup-register": "Startup Registration", "/foreign-register-process": "Foreign Setup Process",
+    "/tax-planning": "Tax Planning", "/accounting-gpts": "GPTs Q&A", "/contact-us": "Contact Yiita",
+  };
   const route = english ? path.replace(/^\/en/, "") || "/" : path;
-  const title = english
-    ? route === "/" ? "Home" : route === "/services" ? "Services" : route === "/contact-us" ? "Contact Yiita" : "Foreign Setup Process"
-    : names[route] || "乙達記帳士事務所";
+  const title = english ? englishNames[route] || "Yiita Accounting" : names[route] || "乙達記帳士事務所";
   return {
     title,
     description: english

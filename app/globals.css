@@ -22,14 +22,19 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .navInner { width: min(var(--max), calc(100% - 40px)); min-height: 45px; margin: 0 auto; display: flex; align-items: stretch; justify-content: flex-end; }
 .navInner > a, .navGroup > summary { min-height: 45px; display: flex; align-items: center; justify-content: center; padding: 0 27px; font-size: 14px; letter-spacing: .03em; cursor: pointer; list-style: none; transition: color .2s, background .2s; }
 .navGroup > summary::-webkit-details-marker { display: none; }
-.navInner > a:hover, .navInner > a.active, .navGroup > summary:hover, .navGroup[open] > summary { color: #d9c48f; background: #262625; }
+.navInner > a:hover, .navInner > a.active, .navGroup > summary:hover, .navGroup > summary.active, .navGroup[open] > summary { color: #d9c48f; background: #262625; }
 .navGroup { position: relative; }
 .dropdown { position: absolute; top: 45px; left: 0; min-width: 210px; padding: 8px 0; background: #262625; box-shadow: 0 16px 28px #0004; }
+.englishNavGroup .dropdown { min-width: 270px; }
 .dropdown a { display: block; padding: 10px 18px; color: #eee; white-space: nowrap; font-size: 14px; }
 .dropdown a:hover { background: #3b3b39; color: #d9c48f; }
 .language { gap: 8px; background: #f6f6f4 !important; color: #333 !important; }
 .language img { width: 18px; height: 18px; border-radius: 50%; }
 .menuButton { display: none; }
+
+@media (hover: hover) and (min-width: 901px) {
+  .navGroup:hover .dropdown { display: block; }
+}
 
 .brandHeader { padding: 45px 24px 40px; background: #f6f6f6; }
 .brandHeader a { display: block; width: min(820px, 78vw); margin: 0 auto; }
@@ -164,6 +169,7 @@ footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #44
   .navInner.isOpen { display: flex; }
   .navInner > a, .navGroup > summary { justify-content: flex-start; min-height: 48px; padding: 0 22px; }
   .dropdown { position: static; box-shadow: none; padding-left: 14px; }
+  .englishNavGroup .dropdown { min-width: 0; }
   .brandHeader { padding: 30px 18px; }
   .brandHeader a { width: min(720px, 92vw); }
   .serviceCards { gap: 16px; }
