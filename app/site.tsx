@@ -1,6 +1,30 @@
 "use client";
 
 import { FormEvent, ReactNode, useEffect, useState } from "react";
+import {
+  branchApplicationProcess,
+  businessTypeRows,
+  companyApplicationProcess,
+  companyDocumentRows,
+  establishmentSteps,
+  foreignBranchRows,
+  foreignCompanyRows,
+  foreignCurrencySteps,
+  foreignSetupStepsEn,
+  foreignSetupStepsZh,
+  gptFaqEn,
+  gptFaqZh,
+  limitedCompanySteps,
+  officeApplicationProcess,
+  registrationGroupsEn,
+  registrationGroupsZh,
+  startupSteps,
+  taxPlanningEn,
+  taxPlanningZh,
+  type ArticleSection,
+  type ContentGroup,
+  type DetailedStep,
+} from "./original-content";
 
 const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
@@ -49,117 +73,14 @@ const serviceSteps = [
   ["06", "每年 5 月完成上一年度營所稅申報"],
 ];
 
-const companyDocs = [
-  ["預查名稱（2–3 個）", "✓", "✓"],
-  ["營業項目", "✓", "✓"],
-  ["負責人身份證影本", "✓", "✓"],
-  ["各股東身份證影本", "✓", "✓"],
-  ["公司名租賃契約影本或所有權人同意書影本 2 份", "✓", "✓"],
-  ["房屋稅單影本或建物所有權狀影本", "✓", "✓"],
-  ["會計師資本簽證應提供文件", "✓", "—"],
-  ["存摺影本（封面、蓋章頁、金額頁）", "✓", "—"],
-  ["存款餘額證明影本（證明至簽證日）", "✓", "—"],
-];
-
-const englishCompanyDocs = [
-  ["Proposed company names (2–3)", "✓", "✓"],
-  ["Business scope and activities", "✓", "✓"],
-  ["Copy of the responsible person's ID", "✓", "✓"],
-  ["Copies of each shareholder's ID", "✓", "✓"],
-  ["Lease agreement or two owner consent forms", "✓", "✓"],
-  ["Property tax statement or building ownership certificate", "✓", "✓"],
-  ["Documents for CPA capital verification", "✓", "—"],
-  ["Bankbook copy (cover, seal and deposit pages)", "✓", "—"],
-  ["Bank balance certificate through the verification date", "✓", "—"],
-];
-
-const businessRows = [
-  ["公司名稱", "商店、商行、企業社（縣市內不得重複）", "有限公司、企業有限公司（全國不得重複）", "股份有限公司（全國不得重複）"],
-  ["資本額", "不限；特殊行業另有限制", "不限，建議不低於 10 萬", "不限，建議不低於 10 萬"],
-  ["資本額簽證", "25 萬以下免證明；以上須資金證明", "需會計師資本額簽證", "需會計師資本額簽證"],
-  ["股東人數", "獨資 1 人；合夥 2 人以上", "1 人以上", "2 人以上，另需董事與監察人"],
-  ["股權轉讓", "獨資可變更合夥；合夥不得變更獨資", "須股東過半數同意", "股權可自由轉讓"],
-  ["股東責任", "無限清償責任", "以出資額為限", "以出資額為限"],
-  ["進出口登記", "經營進出口業務須辦理", "經營進出口業務須辦理", "經營進出口業務須辦理"],
-];
-
-const englishBusinessRows = [
-  ["Business name", "Shop, firm or enterprise; unique within the city or county", "Limited company; unique nationwide", "Company limited by shares; unique nationwide"],
-  ["Capital", "No general minimum; regulated industries may differ", "No general minimum; at least NT$100,000 is recommended", "No general minimum; at least NT$100,000 is recommended"],
-  ["Capital verification", "Proof of funds required above NT$250,000", "CPA capital verification required", "CPA capital verification required"],
-  ["Owners / shareholders", "One for a sole proprietorship; two or more for a partnership", "One or more", "Two or more, plus directors and a supervisor"],
-  ["Ownership transfer", "A sole proprietorship may become a partnership", "Requires approval by a majority of shareholders", "Shares are generally transferable"],
-  ["Liability", "Unlimited liability", "Limited to the amount invested", "Limited to the amount invested"],
-  ["Import / export registration", "Required when conducting import or export business", "Required when conducting import or export business", "Required when conducting import or export business"],
-];
-
-const foreignCompanyRows = [
-  ["股東身份", "外國法人、自然人", "外國法人、自然人"],
-  ["營業／進出口／法人資格", "✓", "✓"],
-  ["股東人數", "自然人 1+；法人 1+", "自然人 2+；法人 1+"],
-  ["人員", "董事 1、投資登記代理人 1", "董事 3、監察人 1、投資登記代理人 1"],
-  ["地址", "需符合商業規定", "需符合商業規定"],
-  ["最低資本額", "無（50 萬才可聘外籍經理人）", "無（50 萬才可聘外籍經理人）"],
-  ["公開發行股票", "✕", "✓"],
-  ["申請外國人工作證", "經理、技術人員", "經理、技術人員"],
-  ["統一發票", "✓", "✓"],
-];
-
-const englishForeignCompanyRows = [
-  ["Investor identity", "Foreign legal entity or individual", "Foreign legal entity or individual"],
-  ["Business / import-export / legal status", "✓", "✓"],
-  ["Shareholders", "One or more individuals; one or more legal entities", "Two or more individuals; one or more legal entities"],
-  ["Required personnel", "One director and one investment agent", "Three directors, one supervisor and one investment agent"],
-  ["Registered address", "Must comply with business-use rules", "Must comply with business-use rules"],
-  ["Minimum capital", "None; NT$500,000 is required to employ a foreign manager", "None; NT$500,000 is required to employ a foreign manager"],
-  ["Public share offering", "✕", "✓"],
-  ["Foreign work permits", "Manager or technical personnel", "Manager or technical personnel"],
-  ["Uniform Invoices", "✓", "✓"],
-];
-
-const foreignBranchRows = [
-  ["股東身份", "總公司為外國公司", "總公司為外國公司"],
-  ["營業資格", "✓", "✕"],
-  ["出進口資格", "✓", "✕"],
-  ["法人資格", "✕", "✕"],
-  ["人員", "代表人 1、經理人 1", "代表人 1"],
-  ["地址", "須符合商業規定", "一般地址即可登記"],
-  ["最低資本額", "無；外幣投資須由境外匯入", "無"],
-  ["申請外國人工作證", "經理、技術人員", "代表人"],
-  ["統一發票", "✓", "✕"],
-];
-
-const englishForeignBranchRows = [
-  ["Parent company", "Foreign company", "Foreign company"],
-  ["Business eligibility", "✓", "✕"],
-  ["Import / export eligibility", "✓", "✕"],
-  ["Separate legal personality", "✕", "✕"],
-  ["Required personnel", "One representative and one manager", "One representative"],
-  ["Registered address", "Must comply with business-use rules", "A general address may be used"],
-  ["Minimum capital", "None; foreign-currency investment must be remitted from overseas", "None"],
-  ["Foreign work permits", "Manager or technical personnel", "Representative"],
-  ["Uniform Invoices", "✓", "✕"],
-];
-
-const foreignSteps = [
-  ["01", "諮詢乙達記帳士事務所", "我們將竭誠為您服務，先確認投資人身份、營業項目與預計時程。"],
-  ["02", "委託乙達申辦公司登記", "簽訂委託書並支付諮詢服務費；公司設立完成後可全數折抵設立費用。"],
-  ["03", "進行外資來台公司設立", "準備投資申請、名稱預查、銀行籌備戶及相關公驗證文件。"],
-  ["04", "經濟部完成登記", "取得統一編號並確認尾款後，接續辦理營業與進出口登記。"],
-  ["05", "國稅局與購票證", "取得核准公文、負責人簽名，並由乙達陪同辦理購票證。"],
-  ["06", "委託記帳", "按期申報營業稅、設帳記錄，並辦理年度營利事業所得稅申報。"],
-  ["07", "會計師稅務簽證", "依企業需求進行年度稅務規劃與簽證申報。"],
-];
-
 function Header({ path, english }: { path: string; english: boolean }) {
   const [open, setOpen] = useState(false);
+  const chineseOnlyRoutes = ["/關於", "/副本-people", "/service-schedule", "/careers", "/news", "/pricing"];
   const languageHref = english
-    ? path === "/en/registeration-process"
-      ? "/registeration-services"
-      : path.replace(/^\/en(?=\/|$)/, "") || "/"
+    ? path.replace(/^\/en(?=\/|$)/, "") || "/"
     : path === "/"
       ? "/en"
-      : `/en${path}`;
+      : chineseOnlyRoutes.includes(path) ? "/en" : `/en${path}`;
   const englishRegistrationActive = englishRegistrationLinks.some(([, href]) => path === href);
   const englishServiceActive = englishServiceLinks.some(([, href]) => path === href);
 
@@ -350,13 +271,84 @@ function PageIntro({ eyebrow, title, children }: { eyebrow?: string; title: stri
 }
 
 function DataTable({ headers, rows }: { headers: string[]; rows: string[][] }) {
+  function renderCell(cell: string) {
+    if (cell === "名稱預查輔助查詢") {
+      return <a className="textLink" href="https://serv.gcis.nat.gov.tw/pub/cmpy/nameSearchListAction.do" target="_blank" rel="noreferrer">{cell} ↗</a>;
+    }
+    if (cell === "營業項目輔助查詢") {
+      return <a className="textLink" href="https://gcis.nat.gov.tw/cod/searchAction.do?method=search" target="_blank" rel="noreferrer">{cell} ↗</a>;
+    }
+    return cell;
+  }
+
   return (
     <div className="tableWrap">
       <table>
         <thead><tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr></thead>
-        <tbody>{rows.map((row, i) => <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>)}</tbody>
+        <tbody>{rows.map((row, i) => <tr key={i}>{row.map((cell, j) => <td key={j}>{renderCell(cell)}</td>)}</tr>)}</tbody>
       </table>
     </div>
+  );
+}
+
+function ContentGroups({ groups }: { groups: ContentGroup[] }) {
+  return (
+    <section className="contentGroups">
+      {groups.map((group, index) => (
+        <article key={group.title}>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h2>{group.title}</h2>
+          <ul>{group.items.map((item) => <li key={item}>{item}</li>)}</ul>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function DetailedFlow({ steps }: { steps: DetailedStep[] }) {
+  return (
+    <section className="timeline detailedTimeline">
+      {steps.map((step, index) => (
+        <article key={`${step.number}-${step.title}-${index}`}>
+          <span>{step.number}</span>
+          <div><h2>{step.title}</h2>{step.copy && <p>{step.copy}</p>}</div>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function ArticleSections({ sections }: { sections: ArticleSection[] }) {
+  return (
+    <section className="longArticles">
+      {sections.map((section, index) => (
+        <article key={section.title}>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <h2>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {section.bullets && <ul>{section.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}
+          </div>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function FaqList({ english }: { english: boolean }) {
+  const faq = english ? gptFaqEn : gptFaqZh;
+  return (
+    <section className="faqSection">
+      <h2>{english ? "Top 10 FAQ" : "Top 10 常見問與答"}</h2>
+      <div className="faqList">
+        {faq.map(([question, answer], index) => (
+          <details key={question} open={index === 0}>
+            <summary><span>{index + 1} /</span>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -367,17 +359,17 @@ function Home({ english = false }: { english?: boolean }) {
         <div className="heroPanel">
           <p className="eyebrow">YIITA ACCOUNTING</p>
           <h1>{english ? "Your Devoted Financial Partner" : "您專業負責的財務夥伴"}</h1>
-          {!english && <h2>記帳　會計　報稅　內帳　外帳</h2>}
-          <p>{english ? "Regardless of your inquiries about finance, accounting, or taxation, our expert team is ready to guide you and deliver solutions tailored to your needs." : "無論您有任何關於財務、會計或稅務方面的問題，乙達記帳士事務所將竭誠協助，為您提供最佳解決方案。"}</p>
+          {!english && <h2>記帳 會計 報稅 內帳 外帳</h2>}
+          <p>{english ? "Regardless of your inquiries pertaining to finance, accounting, or taxation, our expert team is readily available to offer guidance and deliver optimal solutions tailored to your needs." : "無論您有任何關於財務、會計或稅務方面的問題，乙達記帳士事務所將竭誠協助，為您提供最佳解決方案。"}</p>
           <a className="button outline" href={sitePath(english ? "/en/contact-us" : "/contact-us")}>{english ? "Contact Us" : "聯絡乙達"}</a>
         </div>
       </section>
 
       <section className="serviceCards" aria-label={english ? "Our services" : "主要服務"}>
         {[
-          ["/images/service-registration.avif", english ? "Company Registration" : "工商登記", english ? "Company, branch and foreign investment registration." : "辦理公司登記、行號登記等業務", english ? "/en/foreign-register-process" : "/registeration-services"],
-          ["/images/service-bookkeeping.avif", english ? "Bookkeeping" : "記帳服務", english ? "Bookkeeping and tax filing made straightforward." : "輕鬆解決記帳、報稅等傷透腦筋的事務", english ? "/en/services" : "/services"],
-          ["/images/service-contact.avif", english ? "Request a Quote" : "詢問報價", english ? "Tell Yiita what you need and receive professional guidance." : "立即詢問乙達，解決您腦中目前的問題", english ? "/en/contact-us" : "/contact-us"],
+          ["/images/service-registration.avif", english ? "Business Registration" : "工商登記", english ? "Handling Company Registration, Business Registration, and More." : "辦理公司登記、行號登記等業務", english ? "/en/registeration-services" : "/registeration-services"],
+          ["/images/service-bookkeeping.avif", english ? "Bookkeeping Services." : "記帳服務", english ? "asily Solve Accounting, Taxation, and Other Brain-Teasers." : "輕鬆就能解決記帳、報稅等傷透腦筋的事物", english ? "/en/services" : "/services"],
+          ["/images/service-contact.avif", english ? "Request for a quote." : "詢問報價", english ? "Immediate Inquiry to Yiita to Solve Your Current Issues." : "立即詢問乙達，解決您腦中目前的問題", english ? "/en/contact-us" : "/contact-us"],
         ].map(([image, title, copy, href]) => (
           <a className="serviceCard" href={sitePath(href)} key={title}>
             <img src={sitePath(image)} alt="" />
@@ -392,8 +384,8 @@ function Home({ english = false }: { english?: boolean }) {
         <div className="featureCopy">
           <span className="eyebrow">15+ COUNTRIES</span>
           <h2>{english ? "Rich experience in foreign business accounting" : "豐富外商會計經驗"}</h2>
-          <h3>{english ? "Clients from more than 15 countries — and growing" : "15+ 國家之客戶（持續成長中）"}</h3>
-          <p>{english ? "We serve small and medium-sized foreign businesses from more than 15 countries with comprehensive accounting and financial services. Fluent English communication helps us meet diverse needs and keep your financial operations running smoothly." : "我們是一家擁有豐富外商經驗的會計事務所，為來自超過 15 個國家的外商中小企業提供全面的會計和財務服務。以流利的英文溝通能力為特色，我們能夠滿足外商客戶的多樣需求，確保您的財務運營順利無阻。"}</p>
+          <h3>{english ? "Customers from 15+ countries (continuously growing)" : "15+ 國家之客戶（持續成長中）"}</h3>
+          <p>{english ? "We are an experienced accounting & bookkeeping firm with a rich history of serving small and medium-sized foreign businesses from over 15 different countries. We offer comprehensive accounting and financial services, and our distinctive feature is our fluent English communication capability. We are well-equipped to meet the diverse needs of foreign clients, ensuring the smooth operation of your financial affairs." : "我們是一家擁有豐富外商經驗的會計事務所，為來自超過 15 個國家的外商中小企業提供全面的會計和財務服務。以流利的英文溝通能力為特色，我們能夠滿足外商客戶的多樣需求，確保您的財務運營順利無阻。"}</p>
         </div>
         <img src={sitePath("/images/foreign-business.avif")} alt={english ? "Professional office building" : "超過 15 個國家的外商中小企業服務"} />
       </section>
@@ -404,7 +396,7 @@ function Home({ english = false }: { english?: boolean }) {
           <span className="eyebrow">TAILORED SUPPORT</span>
           <h2>{english ? "Customized Accounting Solutions" : "客製化的會計解決方案"}</h2>
           <h3>{english ? "Meeting Your Financial Needs" : "滿足您的財務需求"}</h3>
-          <p>{english ? "We offer accounting solutions tailored to your specific requirements. Ask us for a quote and we will provide competitive pricing with exceptional professional service." : "我們提供客製化的會計解決方案，根據您的需求，為您提供最佳的會計支援。如果您對我們的服務感興趣，歡迎詢問報價，我們將竭誠為您提供最具競爭力的價格和卓越的專業服務。"}</p>
+          <p>{english ? "We offer customized accounting solutions tailored to your specific requirements, providing you with the best accounting support. If you are interested in our services, please feel free to inquire about a quote, and we will be dedicated to providing you with competitive pricing and exceptional professional service." : "我們提供客製化的會計解決方案，根據您的需求，為您提供最佳的會計支援。如果您對我們的服務感興趣，歡迎詢問報價，我們將竭誠為您提供最具競爭力的價格和卓越的專業服務。"}</p>
         </div>
       </section>
 
@@ -420,11 +412,11 @@ function Services({ english = false }: { english?: boolean }) {
   return (
     <>
       <PageIntro eyebrow="ACCOUNTING & TAX" title={english ? "Services" : "服務內容"}>
-        <p>{english ? "Entrusting accounting and tax matters to Yiita is the most time-efficient, effortless and cost-effective method — resolving the burden of bookkeeping and tax filing." : "將會計、稅務等作業，委託乙達記帳士處理是最省時、省力、省成本的方法，輕鬆解決記帳、報稅等讓人傷透腦筋的事務。"}</p>
+        <p>{english ? "Entrusting accounting and tax matters to Yiita Accounting & Bookkeeping Service is the most time-efficient, effortless, and cost-effective method, easily resolving the burdensome tasks of bookkeeping and tax filing." : "將會計、稅務等作業，委託乙達記帳士處理是最省時省力省成本的方法，輕鬆解決記帳、報稅等讓人傷透腦筋的事務。"}</p>
       </PageIntro>
       <section className="stepsGrid">
         {serviceSteps.map(([number, text]) => <article className="stepCard" key={number}><span>{number}</span><p>{english ? translateService(number) : text}</p></article>)}
-        <article className="stepCard other"><span>+</span><p>{english ? "Other accounting and tax matters — contact Yiita." : "其他事項，歡迎洽詢乙達記帳士事務所。"}</p></article>
+        <article className="stepCard other"><span>{english ? "07" : "其他"}</span><p>{english ? "Contact Yiita Accounting & Booking Service" : "洽詢乙達記帳士事務所"}</p></article>
       </section>
       <Cta english={english} />
     </>
@@ -433,25 +425,20 @@ function Services({ english = false }: { english?: boolean }) {
 
 function translateService(number: string) {
   return ({
-    "01": "Purchase and deliver the next batch of Uniform Invoices.",
-    "02": "Organize vouchers and record transactions on schedule.",
-    "03": "Complete bi-monthly business tax filing by the 15th.",
-    "04": "Complete provisional profit-seeking enterprise income tax filing in September.",
-    "05": "Complete annual withholding filings for salary, rent and professional services in January.",
-    "06": "Complete annual profit-seeking enterprise income tax filing in May.",
+    "01": "Purchase and Ship Latest Invoices",
+    "02": "Timely Voucher Organization and Accounting",
+    "03": "Monthly VAT Filing Before 15th",
+    "04": "Annual Provisional Income Tax Filing in Sep.",
+    "05": "Withholding Tax Report Completion in Jan.",
+    "06": "Annual Income Tax Filing in May",
   } as Record<string, string>)[number];
 }
 
 function Registration({ english = false }: { english?: boolean }) {
-  const items = english
-    ? ["Company and business registration", "Registration changes", "Foreign investment in Taiwan", "Branches and representative offices", "Import / export registration", "Tax registration and Uniform Invoice setup"]
-    : ["公司與行號設立", "變更登記", "外資來台投資", "分公司與辦事處", "進出口登記", "營業登記與購票證"];
   return (
     <>
-      <PageIntro eyebrow="BUSINESS REGISTRATION" title={english ? "Registration Services" : "登記業務項目"}><p>{english ? "Business registration requires careful knowledge of Taiwan's rules and documentation. Yiita helps you confirm the requirements, avoid preventable corrections and complete each registration with confidence." : "辦理工商登記等業務，除了需具備相關法令的專業知識，任何小環節遺漏都可能造成退、補件。將工商登記交給乙達記帳士事務所，省下不必要的時間，安心完成相關登記。"}</p></PageIntro>
-      <section className="tileGrid">
-        {items.map((item, i) => <article key={item}><b>{String(i + 1).padStart(2, "0")}</b><h2>{item}</h2><p>{english ? "Yiita confirms the required documents, application steps and expected timeline." : "由乙達協助確認應備文件、申辦流程與預估時程。"}</p></article>)}
-      </section>
+      <PageIntro eyebrow="BUSINESS REGISTRATION" title={english ? "Business Registration Services" : "登記業務項目"}><p>{english ? "Handling business registration and related tasks requires specialized knowledge of relevant laws and regulations. If even a minor part of the application process is not properly executed, government officials will immediately require resubmission or additional documents, leading to unnecessary time wastage. Therefore, entrusting your business registration and related tasks to Yiita Accounting and Bookkeeping Firm ensures all your registration needs are efficiently met without any hassle." : "辦理工商登記等業務，需具備相關法令等專業知識外，在申辦過程中如有一小部份沒做好，公家機關的人員將會立即退、補件，讓您添加了不必要的時間浪費，所以工商相關登記業務交給乙達記帳士事務所，讓您不費吹飛之力即可辦好所有相關登記。"}</p></PageIntro>
+      <ContentGroups groups={english ? registrationGroupsEn : registrationGroupsZh} />
       <Cta english={english} />
     </>
   );
@@ -460,8 +447,8 @@ function Registration({ english = false }: { english?: boolean }) {
 function CompanyDocuments({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="DOCUMENT CHECKLIST" title={english ? "Incorporation Documents" : "公司設立應備文件"}><p>{english ? "Preparing the right documents is the first step toward establishing a business. Yiita keeps your checklist clear, reduces correction requests and helps your registration stay on schedule." : "文件準備是公司成立的重要起點。乙達會隨時提醒您所需文件，減少補件與等待，讓創業進度按計畫前進。"}</p></PageIntro>
-      <section className="contentSection"><DataTable headers={english ? ["Document", "Company", "Business"] : ["文件名稱", "公司", "行號"]} rows={english ? englishCompanyDocs : companyDocs} /><p className="callout">{english ? "Estimated total time: approximately 20 working days for a company and 12 working days for a business registration." : "全部預估所需時間：公司約 20 個工作天、行號約 12 個工作天。"}</p></section>
+      <PageIntro eyebrow="DOCUMENT CHECKLIST" title={english ? "Documents required for company establishment" : "公司設立應備文件"}><p>{english ? "In the process of establishing a company, the preparation of documents cannot be taken lightly at all. A single mistake in any step can delay the entire registration process. But don't worry, with the professional assistance of Yiita Accounting & Bookkeeping Service, we will constantly remind you of the necessary documents, ensuring that you don't miss the best opportunity to start your business." : "在公司成立的道路上，文件準備可一點也不馬虎。只要有一個環節出差錯，就像是在等紅綠燈一樣，會延誤整個登記的時間。但別擔心，有了乙達記帳士事務所的專業協助，我們會隨時提醒您所需的文件，確保您不會錯過創業的最佳時機。讓我們一起攜手，讓您的事業高飛不止，事業蒸蒸日上！我們是一間專業的記帳士事務所，專門為中小企業提供公司成立、記賬報稅等服務。無論您是新創公司還是已經經營的企業，我們都能夠提供豐富的經驗和專業知識，幫助您順利處理各項財務事務。讓我們成為您的財務夥伴，一起寫下成功的故事！"}</p></PageIntro>
+      <section className="contentSection"><h2>應備文件</h2><DataTable headers={["文件名稱", "公司", "行號", "備註"]} rows={companyDocumentRows} /><p className="callout">全部預估所需時間：公司 20 工作天 、行號 12 工作天</p></section>
       <Cta english={english} />
     </>
   );
@@ -470,8 +457,8 @@ function CompanyDocuments({ english = false }: { english?: boolean }) {
 function BusinessTypes({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="CHOOSE YOUR STRUCTURE" title={english ? "Business Types" : "公司與行號差異"}><p>{english ? "Before filing an application, compare how a business, limited company and company limited by shares differ in capital, ownership, liability and procedure." : "正式提出登記申請前，先理解行號、有限公司與股份有限公司在責任、資本、股東與程序上的差異，才能選擇最符合業務需求的組織形式。"}</p></PageIntro>
-      <section className="contentSection wide"><DataTable headers={english ? ["Comparison", "Business", "Limited company", "Company limited by shares"] : ["比較項目", "行號", "有限公司", "股份有限公司"]} rows={english ? englishBusinessRows : businessRows} /></section>
+      <PageIntro eyebrow="CHOOSE YOUR STRUCTURE" title={english ? "Differences Between Company and Sole Proprietorship" : "公司與行號差異"}><p>{english ? "Before establishing a company, entrepreneurs must first decide on the type of business entity to adopt (sole proprietorship or company). Both companies and sole proprietorships are considered \"business entities,\" but they differ in legal requirements, capital requirements, and other aspects. Therefore, it is essential to have a correct understanding of these differences to establish a solid foundation for registration and application, ensuring a smooth start to the entrepreneurial journey." : "在踏上創業之路之前，決定公司的形式（行號或公司）是必要的一步。雖然這兩者統稱為「商業」，但在法律規定和資本額等方面存在著不同之處。因此，在正式啟動登記申請之前，必須充分了解這些差異，這樣您的創業之旅才能風和日麗，一帆風順。讓我們協助您了解並選擇最適合您業務需求的公司形式，確保您的創業之路順風順水！無論是行號還是公司，我們都有豐富的經驗，可以為您提供專業的指導和支持。讓我們一起開啟成功的創業之旅！"}</p></PageIntro>
+      <section className="contentSection wide"><DataTable headers={["比較項目", "行號", "有限公司", "股份有限公司"]} rows={businessTypeRows} /></section>
       <Cta english={english} />
     </>
   );
@@ -480,40 +467,40 @@ function BusinessTypes({ english = false }: { english?: boolean }) {
 function ForeignComparison({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="FOREIGN INVESTMENT" title={english ? "Foreign Investment" : "外資設立比較"}><p>{english ? "Compare the main structures available to foreign investors in Taiwan, including eligibility, personnel, capital and typical application timelines." : "比較華僑與外國投資者在台灣設立企業的不同選項，包含組織形式、營業資格、人員與申辦時程，協助您做出合適的商業決策。"}</p></PageIntro>
-      <section className="contentSection wide"><h2>{english ? "Limited company and company limited by shares" : "有限公司與股份有限公司"}</h2><DataTable headers={english ? ["Comparison", "Limited company", "Company limited by shares"] : ["比較項目", "有限公司", "股份有限公司"]} rows={english ? englishForeignCompanyRows : foreignCompanyRows} /><p className="processLine">{english ? <><b>Typical sequence:</b> document authentication → name review → investment review → bank account → capital remittance → capital review → company registration → tax registration; approximately 30 working days.</> : <><b>預估流程：</b>文件認證 → 名稱審查 → 投資審查 → 銀行開戶 → 匯入股款 → 資金審查 → 公司登記 → 營業登記，約 30 個工作天。</>}</p><h2>{english ? "Taiwan branch and representative office" : "台灣分公司與辦事處"}</h2><DataTable headers={english ? ["Comparison", "Taiwan branch", "Representative office"] : ["比較項目", "台灣分公司", "辦事處"]} rows={english ? englishForeignBranchRows : foreignBranchRows} /><p className="processLine">{english ? "A Taiwan branch generally takes about 28 working days and a representative office about 11. Actual timing depends on the case and authority review." : "台灣分公司約 28 個工作天；辦事處約 11 個工作天。實際時程依個案與主管機關審查為準。"}</p></section>
+      <PageIntro eyebrow="FOREIGN INVESTMENT" title={english ? "Foreign Investment Comparison" : "外資設立比較"}><p>{english ? "Compare and analyze various investment options for overseas Chinese and foreign investors, including Mainland Chinese investors. Explore different choices for establishing a business entity in Taiwan, such as company incorporation and sole proprietorship, and gain insights into relevant regulations, capital requirements, and best practices. Contact Yiita Accounting & Bookkeeping Service to receive assistance" : "華僑和外國投資者（包括陸資）的各種投資方式進行比較和分析。探索外資設立台灣企業的不同選項，包括公司成立、行號設立等，並了解相關法規、資本要求以及最佳實踐。聯絡乙達記帳士事務所，讓我們協助您做出明智的商業決策，開創成功的企業之路。"}</p></PageIntro>
+      <section className="contentSection wide">
+        <h2>{english ? "Limited company and company limited by shares" : "有限公司與股份有限公司"}</h2>
+        <DataTable headers={["比較項目", "有限公司", "股份有限公司"]} rows={foreignCompanyRows} />
+        <p className="processLine"><b>(股份)有限公司申辦流程：</b><br />{companyApplicationProcess}<br /><strong>合計約30個工作天</strong></p>
+        <h2>{english ? "Taiwan branch and representative office" : "台灣分公司與辦事處"}</h2>
+        <DataTable headers={["比較項目", "台灣分公司", "辦事處"]} rows={foreignBranchRows} />
+        <p className="processLine"><b>台灣分公司申辦流程：</b><br />{branchApplicationProcess}<br /><strong>合計約28個工作天</strong></p>
+        <p className="processLine"><b>辦事處申辦流程：</b><br />{officeApplicationProcess}<br /><strong>合計約11個工作天</strong></p>
+      </section>
       <Cta english={english} />
     </>
   );
 }
 
 function Startup({ english = false }: { english?: boolean }) {
-  const steps = english
-    ? ["Choose the business structure", "Confirm the name and activities", "Prepare the address and documents", "Complete capital verification", "Complete company and tax registration", "Begin operations and bookkeeping"]
-    : ["確認公司形式", "名稱與營業項目", "準備地址與文件", "資本額簽證", "完成公司及稅籍登記", "開始營運與記帳"];
   return (
     <>
-      <PageIntro eyebrow="START YOUR BUSINESS" title={english ? "Startup Registration" : "新創公司登記"}><p>{english ? "Yiita supports small and medium-sized businesses with incorporation, bookkeeping and tax filing, giving a new company a clear and dependable start." : "乙達記帳士事務所是您成功創業的得力夥伴。我們專業處理中小企業的公司設立、記帳、報稅等事務，讓您的創業之路更加順暢，為新公司打下穩固基礎。"}</p></PageIntro>
-      <section className="startupFlow">{steps.map((step, i) => <article key={step}><span>{i + 1}</span><h2>{step}</h2></article>)}</section>
+      <PageIntro eyebrow="START YOUR BUSINESS" title={english ? "Startup Registration" : "新創公司登記"}><p>{english ? "Yiita Accounting & Bookkeeping Service is your reliable partner for a successful startup. We specialize in handling company registration, accounting, taxation, and more for small and medium-sized enterprises, ensuring a smoother journey on your entrepreneurial path. Discover our professional services today and establish a solid foundation for your new startup." : "乙達記帳士事務所是您成功創業的得力夥伴。我們專業處理中小企業的公司設立、記帳、報稅等事務，讓您的創業之路更加順暢。立即了解我們的專業服務，為您的新創公司打下穩固的基礎。"}</p></PageIntro>
+      <section className="flowHeading"><span className="eyebrow">PROCESS 01</span><h2>新創公司登記流程</h2></section>
+      <DetailedFlow steps={startupSteps} />
+      <section className="flowHeading"><span className="eyebrow">PROCESS 02</span><h2>有限公司設立作業流程</h2></section>
+      <DetailedFlow steps={limitedCompanySteps} />
       <Cta english={english} />
     </>
   );
 }
 
-function RegistrationProcess() {
-  const steps = [
-    ["01", "Confirm the company structure", "Choose the legal structure, shareholders, responsible person and intended business activities."],
-    ["02", "Reserve the company name", "Prepare several name options and submit the name and business-scope reservation."],
-    ["03", "Prepare the address and documents", "Confirm that the registered address is suitable and assemble the shareholder and property documents."],
-    ["04", "Open the preparatory bank account", "Deposit the capital and obtain the bank records required for capital verification."],
-    ["05", "Complete incorporation registration", "Submit the verified documents and receive the company's Unified Business Number."],
-    ["06", "Complete tax registration", "Finish tax-office approval and set up Uniform Invoice purchasing and ongoing bookkeeping."],
-  ];
+function RegistrationProcess({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="INCORPORATION" title="Incorporation Process"><p>A practical overview of the principal steps for establishing a company in Taiwan. Yiita coordinates the documents and sequence so each stage can proceed smoothly.</p></PageIntro>
-      <section className="timeline">{steps.map(([number, title, copy]) => <article key={number}><span>{number}</span><div><h2>{title}</h2><p>{copy}</p></div></article>)}</section>
-      <Cta english />
+      <PageIntro eyebrow="INCORPORATION" title={english ? "Establishment Process in 6 Steps" : "設立流程 6 步驟"}><p>{english ? "When entrepreneurs apply for business registration, they need to clearly understand the location, required documents, fees, and time for each stage of the process. By mastering the following 6 simple steps, the complicated business registration will be easily resolved. If you still feel confused, do not hesitate to contact Yiita Accounting & Bookkeeping Service, we will assist you wholeheartedly! On the road to entrepreneurship, we are your reliable financial partner." : "創業者在申辦營業登記時，需要明確了解每個階段的辦理地點、所需文件、費用和時間。只要掌握以下 6 個簡單步驟，繁瑣的營業登記將輕鬆解決。如果您仍感困惑，別猶豫，歡迎聯絡乙達記帳士事務所，我們將竭誠協助您！在創業的道路上，我們是您可靠的財務夥伴。"}</p></PageIntro>
+      <DetailedFlow steps={establishmentSteps} />
+      <Cta english={english} />
     </>
   );
 }
@@ -521,33 +508,21 @@ function RegistrationProcess() {
 function ForeignProcess({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="FOREIGN COMPANY SETUP" title={english ? "Foreign Investment in Establishing a Company in Taiwan" : "外資來台設立公司流程"}><p>{english ? "A clear guide to the documents, application steps and timeline required for a foreign company or foreign individual to establish a business in Taiwan." : "想知道外資來台設立公司的完整流程嗎？我們提供所需文件、申辦步驟與時程指引，協助您順利實現在台灣的業務目標。"}</p></PageIntro>
-      <section className="timeline">{foreignSteps.map(([number, title, copy]) => <article key={number}><span>{number}</span><div><h2>{english ? foreignStepEnglish[number] : title}</h2><p>{english ? foreignCopyEnglish[number] : copy}</p></div></article>)}</section>
-      <section className="contentSection"><h2>{english ? "Core foreign-currency investment sequence" : "外幣投資申請核心流程"}</h2><div className="processPills">{(english ? ["Name reservation", "Investment application", "Preparatory bank account", "Capital remittance", "Capital review", "Address documents", "Corporate documents"] : ["名稱預查", "投資申請", "開公司籌備戶", "匯入股款", "資金審定", "公司登記地址文件", "股東會相關文件"]).map((item, i) => <span key={item}>{i + 1}. {item}</span>)}</div></section>
+      <PageIntro eyebrow="FOREIGN COMPANY SETUP" title={english ? "Foreign Investment in Establishing a Company in Taiwan" : "外資來台設立公司流程"}><p>{english ? "Want to know the complete process of foreign investment in establishing a company in Taiwan? Don't worry, we provide a comprehensive guide to the foreign company establishment process, including required documents, application steps, timelines, and costs. Let us assist you in achieving your business goals in Taiwan seamlessly." : "想知道外資來台設立公司的完整流程嗎？不用擔心，我們提供詳盡的外資設立公司流程指南，包括所需文件、申辦步驟、時間與費用等資訊。讓我們協助您順利實現在台灣的業務目標。"}</p></PageIntro>
+      <section className="flowHeading"><span className="eyebrow">PROCESS 01</span><h2>{english ? "Process for Foreign Investment and Foreigners Starting a Company in Taiwan" : "外資來台設立、外國人開公司流程"}</h2></section>
+      <DetailedFlow steps={english ? foreignSetupStepsEn : foreignSetupStepsZh} />
+      <section className="flowHeading"><span className="eyebrow">PROCESS 02</span><h2>{english ? "Application Process (Foreign Currency Investment)" : "申請流程(外幣投資)"}</h2></section>
+      <DetailedFlow steps={foreignCurrencySteps} />
       <Cta english={english} />
     </>
   );
 }
 
-const foreignStepEnglish: Record<string, string> = {"01":"Consult with Yiita","02":"Delegate company registration to Yiita","03":"Establish the foreign-invested company","04":"Complete Ministry of Economic Affairs registration","05":"Tax office approval and invoice certificates","06":"Entrust bookkeeping","07":"CPA tax certification and planning"};
-const foreignCopyEnglish: Record<string, string> = {"01":"Confirm investor identity, business items and the expected timeline.","02":"Sign the engagement and prepare the required documents.","03":"Complete investment review, name reservation and the preparatory bank account.","04":"Receive the Unified Business Number and proceed to tax and import/export registration.","05":"Complete the responsible-person signature and Uniform Invoice setup.","06":"File bi-monthly business tax and maintain records for annual income tax.","07":"Plan annual tax matters and certification according to business needs."};
-
 function TaxPlanning({ english = false }: { english?: boolean }) {
-  const articles = english ? [
-    ["Expanded paper review", "Taxable income is calculated using the standard profit rate published by the Ministry of Finance when the business qualifies and files complete returns on time.", ["Generally available when annual operating and non-operating revenue does not exceed NT$30 million.", "The declared profit rate may be adjusted upward, but not downward.", "Tax may still be due under the standard rate when actual profit is lower or the business records a loss."]],
-    ["Tax authority audit", "The tax authority reviews the company's books, vouchers and returns and determines tax according to the underlying records.", ["Tax is based on the company's actual self-assessed income.", "Books, vouchers and accounting records must be complete and supportable.", "The higher accounting standard may increase bookkeeping work and cost."]],
-    ["CPA-certified tax return", "A CPA reviews the books under tax law and auditing standards before the return is filed, helping reduce omissions and unnecessary tax payments.", ["A higher entertainment-expense limit may apply.", "Qualifying losses from the preceding ten years may offset current-year income.", "The likelihood of a direct tax-authority audit may be reduced."]],
-  ] : [
-    ["書面審核", "擴大書審申報制度依財政部訂定的純益率計算所得稅，符合條件且書表齊全、按時繳稅者，通常可降低被調帳的機會。", ["一般適用於全年營業及非營業收入合計在新臺幣 3,000 萬元以下的營利事業。", "申報純益率只能由低調高，不能由高調低。", "若實際獲利低於標準或虧損，仍可能需依標準繳稅。"]],
-    ["查帳審核", "國稅局調閱企業帳簿、憑證與申報書表，以實際資料核定應納稅額。", ["優點：依自結報表的實際所得繳稅。", "帳冊、憑證與記載方式必須完整且經得起查核。", "帳務要求提高，記帳費用也可能相對增加。"]],
-    ["會計師簽證申報", "企業帳冊先由會計師依稅法與審計準則查核簽證，再向國稅局申報，可協助避免因不熟悉法令而漏稅或多繳稅款。", ["交際費限額提高。", "符合條件者，前 10 年虧損可與本年度所得互抵。", "降低國稅局直接調帳查核的機率。"]],
-  ];
   return (
     <>
-      <PageIntro eyebrow="TAX STRATEGY" title={english ? "Tax Planning" : "稅務規劃"}><p>{english ? "Each filing method has different conditions, costs and risks. Yiita helps your business choose an accounting and filing approach that reflects its actual operations." : "不同申報方式有不同的條件、成本與風險。乙達協助企業依實際營運情況選擇適合的帳務與申報規劃。"}</p></PageIntro>
-      <section className="articleGrid">
-        {articles.map(([title, copy, bullets], index) => <article key={String(title)}><span>{String(index + 1).padStart(2, "0")}</span><h2>{String(title)}</h2><p>{String(copy)}</p><ul>{(bullets as string[]).map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></article>)}
-      </section>
+      <PageIntro eyebrow="TAX STRATEGY" title={english ? "Tax Planning" : "稅務規劃"} />
+      <ArticleSections sections={english ? taxPlanningEn : taxPlanningZh} />
       <Cta english={english} />
     </>
   );
@@ -556,8 +531,12 @@ function TaxPlanning({ english = false }: { english?: boolean }) {
 function Gpts({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="AI × ACCOUNTING" title={english ? "GPTs Q&A" : "GPTs 問與答"}><p>{english ? "At Yiita Accounting & Bookkeeping Service, we integrate GPT technology into our accounting consultation services to help you understand common questions about accounting, taxation and company registration. For advice that depends on your specific circumstances, please contact our professional team." : "乙達將最新 GPT 技術融入會計諮詢，讓您更快速理解常見的會計、稅務與公司登記問題。涉及個案判斷時，仍建議直接聯繫專業團隊。"}</p></PageIntro>
-      <section className="gptCard"><div className="gptMark">Y</div><div><span className="eyebrow">CUSTOM GPT</span><h2>{english ? "Taiwan Accounting Assistant" : "台灣會計小幫手"}</h2><h3>{english ? "Efficient, reliable accounting guidance" : "Taiwan Accounting Assistant"}</h3><p>{english ? "Get clear answers to common Taiwan accounting and tax questions, then contact Yiita whenever your situation requires professional review." : "輕鬆獲得可靠的會計問與答，助你在財務管理上更加得心應手。"}</p><a className="button solid" href="https://chat.openai.com/g/g-u1HB3T24K" target="_blank" rel="noreferrer">{english ? "Open Taiwan Accounting Assistant ↗" : "開啟台灣會計小幫手 ↗"}</a></div></section>
+      <PageIntro eyebrow="AI × ACCOUNTING" title={english ? "GPTs Q&A" : "GPTs 問與答"}><p>{english ? "At Yiita Accounting & Bookkeeping Service, we innovatively integrate the latest GPT technology to enhance our accounting consultation services. Not only do we offer common Q&A, but our system can also instantly respond to your doubts about complex issues in accounting and taxation. Through this advanced technology, you can easily obtain customized, precise professional advice. If you encounter any access difficulties, please contact our professional team immediately, and Yiita Accounting & Bookkeeping Service will provide you with more in-depth, personalized assistance!" : "在乙達記帳士事務所，我們創新地融合了最新的GPT技術來提升會計諮詢服務。不僅提供常見的問答，我們的系統更能即時回應您對會計、稅務等複雜問題的疑惑。透過這項先進技術，您可以輕鬆獲得定制化、精準的專業建議。若遇到任何存取困難，請即刻聯繫我們的專業團隊，乙達記帳士事務所將為您提供更深入、個人化的協助！"}</p></PageIntro>
+      <section className="gptServices">
+        <a className="gptCard" href="https://chat.openai.com/g/g-u1HB3T24K" target="_blank" rel="noreferrer"><div className="gptMark">Y</div><div><span className="eyebrow">CUSTOM GPT</span><h2>{english ? "GPTs - Taiwan Accounting Assistant" : "台灣會計小幫手 (Taiwan Accounting Assistant)"}</h2><h3>{english ? "Efficient, reliable accounting advice" : "輕鬆獲得可靠的會計問與答，助你在財務管理上更加得心應手"}</h3><p>{english ? "(Only available for ChatGPT Plus and Enterprise users)" : "Efficient, reliable accounting advice"}</p></div></a>
+        <a className="gptCard" href={sitePath(english ? "/en/contact-us" : "/contact-us")}><div className="gptMark">Y</div><div><span className="eyebrow">YIITA TEAM</span><h2>{english ? "Contact Yiita Accounting & Bookkeeping Service" : "乙達記帳士事務所 專人"}</h2><h3>{english ? "Through specialists who are warmer and more professional than AI, we immediately activate and assist with your business." : "透過比 AI 更具溫度及專業的專人，立即啟動及協助您的事業"}</h3></div></a>
+      </section>
+      <FaqList english={english} />
       <Cta english={english} />
     </>
   );
@@ -566,14 +545,46 @@ function Gpts({ english = false }: { english?: boolean }) {
 function Contact({ english = false }: { english?: boolean }) {
   return (
     <>
-      <PageIntro eyebrow="LET'S TALK" title={english ? "Contact Yiita" : "聯絡乙達"}><p>{english ? "We look forward to hearing your needs and providing professional bookkeeping, accounting and tax services for your business." : "我們期待聆聽您的需求，為中小企業提供專業的記帳服務。無論您有任何財務、會計或稅務問題，乙達團隊都將竭誠協助。"}</p></PageIntro>
+      <PageIntro eyebrow="LET'S TALK" title={english ? "Contact Yiita" : "聯絡乙達"}><p>{english ? "Contact Us - We look forward to hearing your needs and providing professional internal bookkeeping services for your small and medium-sized enterprise. If you have any questions about finance, accounting, or taxation, our team is dedicated to assisting you and offering the best solutions. Please fill out the form below or contact us to start our collaboration, helping you achieve financial success and business growth." : "聯繫我們 - 我們期待聆聽您的需求，並為您的中小企業提供專業的內部記帳服務。無論您有任何關於財務、會計或稅務方面的問題，我們的團隊將竭誠協助，為您提供最佳解決方案。請填寫下面的表格或聯絡我們，讓我們開始合作，協助您實現財務成功和業務增長。"}</p></PageIntro>
       <section className="contactLayout"><div className="contactDetails"><h2>{english ? "Other Contact Methods" : "其他聯繫方式"}</h2><dl><div><dt>{english ? "Phone" : "電話"}</dt><dd><a href="tel:+886282214008">02-8221-4008</a></dd></div><div><dt>{english ? "Address" : "地址"}</dt><dd>{english ? "No. 22-2, Lane 30, Xinsheng Street, Zhonghe District, New Taipei City 235" : "235 新北市中和區新生街 30 巷 22-2 號"}</dd></div><div><dt>Email</dt><dd><a href="mailto:info@yiita.com">info@yiita.com</a></dd></div></dl><div className="qrGrid"><a href="https://line.me/ti/p/CE4oZqQlch" target="_blank" rel="noreferrer"><img src={sitePath("/images/line-qr.avif")} alt="Yiita LINE QR code" /><b>LINE</b></a><a href="https://wa.me/message/YOP4EOVNXQJAC1" target="_blank" rel="noreferrer"><img src={sitePath("/images/whatsapp-qr.avif")} alt="Yiita WhatsApp QR code" /><b>WhatsApp</b></a></div></div><ContactForm english={english} /></section>
     </>
   );
 }
 
 function Pricing() {
-  return <><PageIntro eyebrow="PRICING" title="服務收費"><p>每家企業的交易量、營業項目與申報需求不同。乙達會在了解您的實際情況後，提供清楚且合適的報價。</p></PageIntro><Cta /></>;
+  return <PageIntro eyebrow="PRICING" title="服務收費" />;
+}
+
+function ServiceSchedule() {
+  return <PageIntro eyebrow="SCHEDULE" title="服務時程" />;
+}
+
+function PeoplePage() {
+  return (
+    <>
+      <PageIntro eyebrow="PEOPLE" title="People"><p>I&apos;m a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. Feel free to drag and drop me anywhere you like on your page. I’m a great place for you to tell a story and let your users know a little more about you.</p></PageIntro>
+      <section className="peopleGrid"><article><img src={sitePath("/images/original-partner.jpg")} alt="Partner" /><h2>Partners</h2></article><article><img src={sitePath("/images/original-associate.jpg")} alt="Associate" /><h2>Associates</h2></article></section>
+    </>
+  );
+}
+
+function Careers() {
+  const sections = [
+    ["Associates", "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. Feel free to drag and drop me anywhere you like on your page. I’m a great place for you to tell a story and let your users know a little more about you."],
+    ["Law Students / Summer Interns", "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you. Feel free to drag and drop me anywhere you like on your page."],
+    ["Paralegals / Staff", "I'm a paragraph. Click here to add your own text and edit me. I’m a great place for you to tell a story and let your users know a little more about you. I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font."],
+  ];
+  return (
+    <>
+      <PageIntro eyebrow="CAREERS" title="Careers"><p>Your Legal Career Starts Here</p><p>I&apos;m a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you.</p></PageIntro>
+      <img className="careerHero" src={sitePath("/images/original-careers.jpg")} alt="Careers" />
+      <section className="careerGrid">{sections.map(([title, copy]) => <article key={title}><h2>{title}</h2><p>{copy}</p><a className="textLink" href="http://www.wix.com/templateslp/links" target="_blank" rel="noreferrer">LEARN MORE &gt;&gt;</a></article>)}</section>
+    </>
+  );
+}
+
+function News() {
+  return <><PageIntro eyebrow="K&R BLOG" title="News & Articles" /><section className="emptyState"><span>All Posts</span><h2>此語言尚未有已發佈之文章</h2><p>文章發佈後將於此處顯示。</p></section></>;
 }
 
 function Cta({ english = false }: { english?: boolean }) {
@@ -599,14 +610,19 @@ export function Site({ path }: { path: string }) {
     case "/registeration-services": page = <Registration english={english} />; break;
     case "/company-register-docs": page = <CompanyDocuments english={english} />; break;
     case "/business-types": page = <BusinessTypes english={english} />; break;
-    case "/registeration-process": page = english ? <RegistrationProcess /> : <NotFound english={false} />; break;
+    case "/registeration-process": page = <RegistrationProcess english={english} />; break;
     case "/foreign-invest-comparison": page = <ForeignComparison english={english} />; break;
     case "/startup-register": page = <Startup english={english} />; break;
     case "/foreign-register-process": page = <ForeignProcess english={english} />; break;
     case "/tax-planning": page = <TaxPlanning english={english} />; break;
     case "/accounting-gpts": page = <Gpts english={english} />; break;
     case "/contact-us": page = <Contact english={english} />; break;
-    case "/pricing": page = <Pricing />; break;
+    case "/pricing": page = english ? <NotFound english /> : <Pricing />; break;
+    case "/service-schedule": page = english ? <NotFound english /> : <ServiceSchedule />; break;
+    case "/關於": page = english ? <NotFound english /> : <PeoplePage />; break;
+    case "/副本-people": page = english ? <NotFound english /> : <PeoplePage />; break;
+    case "/careers": page = english ? <NotFound english /> : <Careers />; break;
+    case "/news": page = english ? <NotFound english /> : <News />; break;
     default: page = <NotFound english={english} />;
   }
 
