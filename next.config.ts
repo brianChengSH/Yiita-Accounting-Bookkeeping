@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 
-const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
+const assetPrefix = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 
 const nextConfig: NextConfig = {
   output: "export",
-  assetPrefix: basePath || undefined,
+  assetPrefix,
   images: { unoptimized: true },
 };
 

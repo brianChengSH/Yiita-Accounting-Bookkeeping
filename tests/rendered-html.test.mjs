@@ -6,6 +6,7 @@ const root = new URL("../dist/client/", import.meta.url);
 const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
 const expectedSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.yiita.com").replace(/\/$/, "");
+const expectedAssetPrefix = process.env.NEXT_PUBLIC_SITE_URL ? expectedSiteUrl : "";
 
 test("exports the bilingual Yiita home pages", async () => {
   const [zh, en] = await Promise.all([
@@ -20,8 +21,15 @@ test("exports the bilingual Yiita home pages", async () => {
   assert.ok(zh.includes(`href="${basePath || "/"}`));
   assert.ok(zh.includes(`href="${basePath}/services"`));
   assert.ok(zh.includes(`src="${basePath}/images/yiita-logo.avif"`));
-  assert.ok(zh.includes(`src="${basePath}/_next/static/`));
+  assert.ok(zh.includes(`src="${expectedAssetPrefix}/_next/static/`));
   assert.ok(zh.includes(`${expectedSiteUrl}/og.png`));
+});
+
+test("keeps framework assets at the deployment artifact root", async () => {
+  await access(new URL("_next/static/", root));
+  if (basePath) {
+    await assert.rejects(access(new URL(`${basePath.slice(1)}/_next/static/`, root)));
+  }
 });
 
 test("exports all main service routes and brand assets", async () => {
