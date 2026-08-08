@@ -32,6 +32,18 @@ test("keeps framework assets at the deployment artifact root", async () => {
   }
 });
 
+test("exports the original Yiita browser and Apple icons", async () => {
+  const html = await readFile(new URL("index.html", root), "utf8");
+  assert.ok(html.includes(`href="${basePath}/favicon-32.png"`));
+  assert.ok(html.includes(`href="${basePath}/favicon-192.png"`));
+  assert.ok(html.includes(`href="${basePath}/apple-touch-icon.png"`));
+  await Promise.all([
+    "favicon-32.png",
+    "favicon-192.png",
+    "apple-touch-icon.png",
+  ].map((file) => access(new URL(file, root))));
+});
+
 test("exports all main service routes and brand assets", async () => {
   await Promise.all([
     "services.html",
