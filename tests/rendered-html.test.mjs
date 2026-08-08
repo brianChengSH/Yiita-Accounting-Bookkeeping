@@ -3,6 +3,9 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const root = new URL("../dist/client/", import.meta.url);
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
+const expectedSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.yiita.com").replace(/\/$/, "");
 
 test("exports the bilingual Yiita home pages", async () => {
   const [zh, en] = await Promise.all([
@@ -14,6 +17,11 @@ test("exports the bilingual Yiita home pages", async () => {
   assert.match(en, /Your Devoted Financial Partner/);
   assert.match(en, /Yiita Accounting/);
   assert.doesNotMatch(zh, /codex-preview|react-loading-skeleton/i);
+  assert.ok(zh.includes(`href="${basePath || "/"}`));
+  assert.ok(zh.includes(`href="${basePath}/services"`));
+  assert.ok(zh.includes(`src="${basePath}/images/yiita-logo.avif"`));
+  assert.ok(zh.includes(`src="${basePath}/_next/static/`));
+  assert.ok(zh.includes(`${expectedSiteUrl}/og.png`));
 });
 
 test("exports all main service routes and brand assets", async () => {
@@ -31,7 +39,6 @@ test("exports all main service routes and brand assets", async () => {
     "images/line-qr.avif",
     "og.png",
     ".nojekyll",
-    "CNAME",
   ].map((file) => access(new URL(file, root))));
 });
 

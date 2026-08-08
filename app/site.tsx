@@ -2,6 +2,15 @@
 
 import { FormEvent, ReactNode, useState } from "react";
 
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const basePath = configuredBasePath === "/" ? "" : configuredBasePath.replace(/\/$/, "");
+
+function sitePath(path: string) {
+  if (!path.startsWith("/") || path.startsWith("//")) return path;
+  if (path === "/") return basePath || "/";
+  return `${basePath}${path}`;
+}
+
 const registrationLinks = [
   ["登記業務項目", "/registeration-services"],
   ["公司設立應備文件", "/company-register-docs"],
@@ -99,15 +108,15 @@ function Header({ path, english }: { path: string; english: boolean }) {
           <b>{english ? "Menu" : "選單"}</b>
         </button>
         <div id="site-menu" className={`navInner ${open ? "isOpen" : ""}`}>
-          <a className={path === (english ? "/en" : "/") ? "active" : ""} href={english ? "/en" : "/"}>
+          <a className={path === (english ? "/en" : "/") ? "active" : ""} href={sitePath(english ? "/en" : "/")}>
             {english ? "Home" : "首頁"}
           </a>
           {english ? (
             <>
-              <a href="/en/foreign-register-process">Company Registration</a>
-              <a href="/en/services">Accounting Services</a>
-              <a href="/accounting-gpts">GPTs Q&amp;A</a>
-              <a href="/en/contact-us">Contact Yiita</a>
+              <a href={sitePath("/en/foreign-register-process")}>Company Registration</a>
+              <a href={sitePath("/en/services")}>Accounting Services</a>
+              <a href={sitePath("/accounting-gpts")}>GPTs Q&amp;A</a>
+              <a href={sitePath("/en/contact-us")}>Contact Yiita</a>
             </>
           ) : (
             <>
@@ -115,7 +124,7 @@ function Header({ path, english }: { path: string; english: boolean }) {
                 <summary>公司登記介紹</summary>
                 <div className="dropdown">
                   {registrationLinks.map(([label, href]) => (
-                    <a href={href} key={href}>{label}</a>
+                    <a href={sitePath(href)} key={href}>{label}</a>
                   ))}
                 </div>
               </details>
@@ -123,23 +132,23 @@ function Header({ path, english }: { path: string; english: boolean }) {
                 <summary>記帳服務</summary>
                 <div className="dropdown">
                   {serviceLinks.map(([label, href]) => (
-                    <a href={href} key={href}>{label}</a>
+                    <a href={sitePath(href)} key={href}>{label}</a>
                   ))}
                 </div>
               </details>
-              <a href="/accounting-gpts">GPTs 問與答</a>
-              <a href="/contact-us">聯絡乙達</a>
+              <a href={sitePath("/accounting-gpts")}>GPTs 問與答</a>
+              <a href={sitePath("/contact-us")}>聯絡乙達</a>
             </>
           )}
-          <a className="language" href={languageHref} aria-label={english ? "切換至中文" : "Switch to English"}>
-            <img src={english ? "/images/flag-tw.png" : "/images/flag-us.png"} alt="" />
+          <a className="language" href={sitePath(languageHref)} aria-label={english ? "切換至中文" : "Switch to English"}>
+            <img src={sitePath(english ? "/images/flag-tw.png" : "/images/flag-us.png")} alt="" />
             {english ? "中文" : "English"}
           </a>
         </div>
       </nav>
       <header className="brandHeader">
-        <a href={english ? "/en" : "/"} aria-label={english ? "Yiita home" : "乙達首頁"}>
-          <img src="/images/yiita-logo.avif" alt="乙達記帳士事務所 — Yiita Accounting & Bookkeeping Service" />
+        <a href={sitePath(english ? "/en" : "/")} aria-label={english ? "Yiita home" : "乙達首頁"}>
+          <img src={sitePath("/images/yiita-logo.avif")} alt="乙達記帳士事務所 — Yiita Accounting & Bookkeeping Service" />
         </a>
       </header>
     </>
@@ -217,13 +226,13 @@ function DataTable({ headers, rows }: { headers: string[]; rows: string[][] }) {
 function Home({ english = false }: { english?: boolean }) {
   return (
     <>
-      <section className="hero" aria-label={english ? "Yiita introduction" : "乙達介紹"}>
+      <section className="hero" style={{ backgroundImage: `url(${sitePath("/images/hero-cloud-gate.avif")})` }} aria-label={english ? "Yiita introduction" : "乙達介紹"}>
         <div className="heroPanel">
           <p className="eyebrow">YIITA ACCOUNTING</p>
           <h1>{english ? "Your Devoted Financial Partner" : "您專業負責的財務夥伴"}</h1>
           {!english && <h2>記帳　會計　報稅　內帳　外帳</h2>}
           <p>{english ? "Regardless of your inquiries about finance, accounting, or taxation, our expert team is ready to guide you and deliver solutions tailored to your needs." : "無論您有任何關於財務、會計或稅務方面的問題，乙達記帳士事務所將竭誠協助，為您提供最佳解決方案。"}</p>
-          <a className="button outline" href={english ? "/en/contact-us" : "/contact-us"}>{english ? "Contact Us" : "聯絡乙達"}</a>
+          <a className="button outline" href={sitePath(english ? "/en/contact-us" : "/contact-us")}>{english ? "Contact Us" : "聯絡乙達"}</a>
         </div>
       </section>
 
@@ -233,8 +242,8 @@ function Home({ english = false }: { english?: boolean }) {
           ["/images/service-bookkeeping.avif", english ? "Bookkeeping" : "記帳服務", english ? "Bookkeeping and tax filing made straightforward." : "輕鬆解決記帳、報稅等傷透腦筋的事務", english ? "/en/services" : "/services"],
           ["/images/service-contact.avif", english ? "Request a Quote" : "詢問報價", english ? "Tell Yiita what you need and receive professional guidance." : "立即詢問乙達，解決您腦中目前的問題", english ? "/en/contact-us" : "/contact-us"],
         ].map(([image, title, copy, href]) => (
-          <a className="serviceCard" href={href} key={title}>
-            <img src={image} alt="" />
+          <a className="serviceCard" href={sitePath(href)} key={title}>
+            <img src={sitePath(image)} alt="" />
             <h3>{title}</h3>
             <p>{copy}</p>
             <span>{english ? "Learn more" : "了解更多"} →</span>
@@ -249,11 +258,11 @@ function Home({ english = false }: { english?: boolean }) {
           <h3>{english ? "Clients from more than 15 countries — and growing" : "15+ 國家之客戶（持續成長中）"}</h3>
           <p>{english ? "We serve small and medium-sized foreign businesses from more than 15 countries with comprehensive accounting and financial services. Fluent English communication helps us meet diverse needs and keep your financial operations running smoothly." : "我們是一家擁有豐富外商經驗的會計事務所，為來自超過 15 個國家的外商中小企業提供全面的會計和財務服務。以流利的英文溝通能力為特色，我們能夠滿足外商客戶的多樣需求，確保您的財務運營順利無阻。"}</p>
         </div>
-        <img src="/images/foreign-business.avif" alt={english ? "Professional office building" : "超過 15 個國家的外商中小企業服務"} />
+        <img src={sitePath("/images/foreign-business.avif")} alt={english ? "Professional office building" : "超過 15 個國家的外商中小企業服務"} />
       </section>
 
       <section className="split feature reverse">
-        <img src="/images/accounting-solutions.avif" alt={english ? "Accounting professional at work" : "客製化的會計解決方案"} />
+        <img src={sitePath("/images/accounting-solutions.avif")} alt={english ? "Accounting professional at work" : "客製化的會計解決方案"} />
         <div className="featureCopy">
           <span className="eyebrow">TAILORED SUPPORT</span>
           <h2>{english ? "Customized Accounting Solutions" : "客製化的會計解決方案"}</h2>
@@ -390,7 +399,7 @@ function Contact({ english = false }: { english?: boolean }) {
   return (
     <>
       <PageIntro eyebrow="LET'S TALK" title={english ? "Contact Yiita" : "聯絡乙達"}><p>{english ? "We look forward to hearing your needs and providing professional bookkeeping, accounting and tax services for your business." : "我們期待聆聽您的需求，為中小企業提供專業的記帳服務。無論您有任何財務、會計或稅務問題，乙達團隊都將竭誠協助。"}</p></PageIntro>
-      <section className="contactLayout"><div className="contactDetails"><h2>{english ? "Other Contact Methods" : "其他聯繫方式"}</h2><dl><div><dt>{english ? "Phone" : "電話"}</dt><dd><a href="tel:+886282214008">02-8221-4008</a></dd></div><div><dt>{english ? "Address" : "地址"}</dt><dd>{english ? "No. 22-2, Lane 30, Xinsheng Street, Zhonghe District, New Taipei City 235" : "235 新北市中和區新生街 30 巷 22-2 號"}</dd></div><div><dt>Email</dt><dd><a href="mailto:info@yiita.com">info@yiita.com</a></dd></div></dl><div className="qrGrid"><a href="https://line.me/ti/p/CE4oZqQlch" target="_blank" rel="noreferrer"><img src="/images/line-qr.avif" alt="Yiita LINE QR code" /><b>LINE</b></a><a href="https://wa.me/message/YOP4EOVNXQJAC1" target="_blank" rel="noreferrer"><img src="/images/whatsapp-qr.avif" alt="Yiita WhatsApp QR code" /><b>WhatsApp</b></a></div></div><ContactForm english={english} /></section>
+      <section className="contactLayout"><div className="contactDetails"><h2>{english ? "Other Contact Methods" : "其他聯繫方式"}</h2><dl><div><dt>{english ? "Phone" : "電話"}</dt><dd><a href="tel:+886282214008">02-8221-4008</a></dd></div><div><dt>{english ? "Address" : "地址"}</dt><dd>{english ? "No. 22-2, Lane 30, Xinsheng Street, Zhonghe District, New Taipei City 235" : "235 新北市中和區新生街 30 巷 22-2 號"}</dd></div><div><dt>Email</dt><dd><a href="mailto:info@yiita.com">info@yiita.com</a></dd></div></dl><div className="qrGrid"><a href="https://line.me/ti/p/CE4oZqQlch" target="_blank" rel="noreferrer"><img src={sitePath("/images/line-qr.avif")} alt="Yiita LINE QR code" /><b>LINE</b></a><a href="https://wa.me/message/YOP4EOVNXQJAC1" target="_blank" rel="noreferrer"><img src={sitePath("/images/whatsapp-qr.avif")} alt="Yiita WhatsApp QR code" /><b>WhatsApp</b></a></div></div><ContactForm english={english} /></section>
     </>
   );
 }
@@ -400,11 +409,11 @@ function Pricing() {
 }
 
 function Cta({ english = false }: { english?: boolean }) {
-  return <section className="cta"><div><span className="eyebrow">YIITA</span><h2>{english ? "Ready to set up or simplify your accounting?" : "準備好開始設立公司，或讓記帳更輕鬆嗎？"}</h2></div><a className="button light" href={english ? "/en/contact-us" : "/contact-us"}>{english ? "Contact Yiita" : "聯絡乙達"}</a></section>;
+  return <section className="cta"><div><span className="eyebrow">YIITA</span><h2>{english ? "Ready to set up or simplify your accounting?" : "準備好開始設立公司，或讓記帳更輕鬆嗎？"}</h2></div><a className="button light" href={sitePath(english ? "/en/contact-us" : "/contact-us")}>{english ? "Contact Yiita" : "聯絡乙達"}</a></section>;
 }
 
 function NotFound({ english }: { english: boolean }) {
-  return <section className="notFound"><span>404</span><h1>{english ? "Page not found" : "找不到這個頁面"}</h1><a className="button solid" href={english ? "/en" : "/"}>{english ? "Back home" : "回到首頁"}</a></section>;
+  return <section className="notFound"><span>404</span><h1>{english ? "Page not found" : "找不到這個頁面"}</h1><a className="button solid" href={sitePath(english ? "/en" : "/")}>{english ? "Back home" : "回到首頁"}</a></section>;
 }
 
 export function Site({ path }: { path: string }) {
@@ -427,5 +436,5 @@ export function Site({ path }: { path: string }) {
     default: page = <NotFound english={english} />;
   }
 
-  return <div className="siteShell"><Header path={path} english={english} /><main>{page}</main><Footer english={english} /><a className="floatingContact" href={english ? "/en/contact-us" : "/contact-us"}>{english ? "Talk to Yiita" : "立即展開交談"}</a></div>;
+  return <div className="siteShell"><Header path={path} english={english} /><main>{page}</main><Footer english={english} /><a className="floatingContact" href={sitePath(english ? "/en/contact-us" : "/contact-us")}>{english ? "Talk to Yiita" : "立即展開交談"}</a></div>;
 }

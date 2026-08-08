@@ -36,7 +36,7 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .brandHeader img { width: 100%; height: auto; }
 
 main { min-height: 55vh; }
-.hero { width: min(var(--max), calc(100% - 32px)); min-height: 410px; margin: 0 auto; display: grid; place-items: center; background: url('/images/hero-cloud-gate.avif') center/cover no-repeat; }
+.hero { width: min(var(--max), calc(100% - 32px)); min-height: 410px; margin: 0 auto; display: grid; place-items: center; background-position: center; background-size: cover; background-repeat: no-repeat; }
 .heroPanel { width: min(900px, calc(100% - 48px)); padding: 34px 58px; text-align: center; color: #fff; background: rgb(31 31 30 / 78%); backdrop-filter: blur(2px); }
 .heroPanel h1 { margin: 3px 0 0; font-size: clamp(30px, 4vw, 48px); font-weight: 400; letter-spacing: .05em; }
 .heroPanel h2 { margin: 0 0 14px; font-size: 20px; font-weight: 400; }

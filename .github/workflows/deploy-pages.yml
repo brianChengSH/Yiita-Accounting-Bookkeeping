@@ -23,10 +23,14 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://www.yiita.com
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/client

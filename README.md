@@ -9,13 +9,15 @@
 - 聯絡表單以訪客自己的 Email 應用程式寄送，不保存訪客資料
 - 保留 LINE、WhatsApp、電話與 Email 聯絡方式
 - 內建 GitHub Pages 自動發佈流程
-- 自訂網域設定為 `www.yiita.com`
+- 現在可使用 GitHub 預設專案網址，之後也能切換至 `www.yiita.com`
 
 ## GitHub Pages 發佈
 
 將這個資料夾作為 GitHub repository 根目錄推送到 `main` branch，然後在 GitHub repository 的 **Settings → Pages → Build and deployment** 選擇 **GitHub Actions**。之後每次推送到 `main` 都會自動更新網站。
 
-切換正式網域前，請先在 GitHub Pages 設定 `www.yiita.com`，再依 GitHub 顯示的 DNS 指引修改目前網域設定，以免網站中斷。
+部署流程會自動讀取 GitHub Pages 的網址與路徑：尚未設定 custom domain 時，網站使用 `https://brianchengsh.github.io/Yiita-Accounting-Bookkeeping/`；日後在 Pages 設定加入 `www.yiita.com` 後，同一個 workflow 會自動切換到正式網域，不需要再修改程式碼。
+
+切換正式網域前，請先在 GitHub Pages 的 **Custom domain** 欄位設定 `www.yiita.com`，再依 GitHub 顯示的 DNS 指引修改目前網域設定，以免網站中斷。
 
 ## 本機預覽
 
