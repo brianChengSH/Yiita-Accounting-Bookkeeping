@@ -171,24 +171,71 @@ function Footer({ english }: { english: boolean }) {
   );
 }
 
+type EmailDraft = {
+  copyText: string;
+  gmailUrl: string;
+  mailtoUrl: string;
+  outlookUrl: string;
+};
+
+function buildEmailDraft(data: FormData, english: boolean): EmailDraft {
+  const recipient = "info@yiita.com";
+  const name = String(data.get("name") || "");
+  const phone = String(data.get("phone") || "");
+  const email = String(data.get("email") || "");
+  const topic = String(data.get("topic") || "");
+  const message = String(data.get("message") || "");
+  const subject = topic || (english ? "Website enquiry" : "網站諮詢");
+  const body = english
+    ? `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n\n${message}`
+    : `姓名：${name}\n電話：${phone}\nEmail：${email}\n\n${message}`;
+  const encodedRecipient = encodeURIComponent(recipient);
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body);
+
+  return {
+    copyText: `${english ? "To" : "收件人"}：${recipient}\n${english ? "Subject" : "主旨"}：${subject}\n\n${body}`,
+    gmailUrl: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedRecipient}&su=${encodedSubject}&body=${encodedBody}`,
+    mailtoUrl: `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`,
+    outlookUrl: `https://outlook.office.com/mail/deeplink/compose?to=${encodedRecipient}&subject=${encodedSubject}&body=${encodedBody}`,
+  };
+}
+
 function ContactForm({ english = false }: { english?: boolean }) {
-  function sendMail(event: FormEvent<HTMLFormElement>) {
+  const [draft, setDraft] = useState<EmailDraft | null>(null);
+  const [copyStatus, setCopyStatus] = useState("");
+
+  function prepareMail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") || "");
-    const phone = String(data.get("phone") || "");
-    const email = String(data.get("email") || "");
-    const topic = String(data.get("topic") || "");
-    const message = String(data.get("message") || "");
-    const subject = topic || (english ? "Website enquiry" : "網站諮詢");
-    const body = english
-      ? `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n\n${message}`
-      : `姓名：${name}\n電話：${phone}\nEmail：${email}\n\n${message}`;
-    window.location.href = `mailto:info@yiita.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setDraft(buildEmailDraft(new FormData(event.currentTarget), english));
+    setCopyStatus("");
+  }
+
+  async function copyEmail() {
+    if (!draft) return;
+    let copied = false;
+
+    try {
+      await navigator.clipboard.writeText(draft.copyText);
+      copied = true;
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = draft.copyText;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      copied = document.execCommand("copy");
+      textarea.remove();
+    }
+
+    setCopyStatus(copied
+      ? (english ? "Email content copied." : "Email 內容已複製。")
+      : (english ? "Copy failed. Please select the text manually." : "無法自動複製，請改用 Gmail 或 Outlook。"));
   }
 
   return (
-    <form className="contactForm" onSubmit={sendMail}>
+    <form className="contactForm" onSubmit={prepareMail}>
       <div className="fieldRow">
         <label>{english ? "Name" : "姓名"}<input required name="name" autoComplete="name" /></label>
         <label>{english ? "Phone" : "電話"}<input name="phone" autoComplete="tel" /></label>
@@ -196,8 +243,19 @@ function ContactForm({ english = false }: { english?: boolean }) {
       <label>Email<input required name="email" type="email" autoComplete="email" /></label>
       <label>{english ? "Subject" : "標題"}<input name="topic" placeholder={english ? "Quote enquiry or other question" : "詢問報價、詢問其他事項"} /></label>
       <label>{english ? "How can we help?" : "請留下您的需求"}<textarea required name="message" rows={6} /></label>
-      <button className="button solid" type="submit">{english ? "Open email" : "開啟 Email 送出"}</button>
-      <p className="formNote">{english ? "Your email app will open with the information above. Nothing is stored on this website." : "送出後會開啟您的 Email；本網站不會儲存您填寫的資料。"}</p>
+      <button className="button solid" type="submit">{english ? "Choose how to send" : "準備寄信方式"}</button>
+      <p className="formNote">{english ? "Nothing is stored on this website. You can use Gmail, Outlook, your device email app, or copy the message." : "本網站不會儲存您填寫的資料；可使用 Gmail、Outlook、裝置 Email 或複製內容。"}</p>
+      <section className="emailOptions" hidden={!draft} aria-live="polite" aria-label={english ? "Email sending options" : "寄信方式"}>
+        <h3>{english ? "Your email draft is ready" : "Email 草稿已準備好"}</h3>
+        <p>{english ? "Choose a method below. If your device email app does not open, use Gmail, Outlook or copy the content." : "請選擇寄信方式；若裝置 Email 無法開啟，請改用 Gmail、Outlook 或複製內容。"}</p>
+        <div className="emailActionGrid">
+          <a className="button solid" href={draft?.gmailUrl || "#"} target="_blank" rel="noreferrer" aria-disabled={!draft} tabIndex={draft ? 0 : -1}>{english ? "Use Gmail" : "使用 Gmail"}</a>
+          <a className="button secondary" href={draft?.outlookUrl || "#"} target="_blank" rel="noreferrer" aria-disabled={!draft} tabIndex={draft ? 0 : -1}>{english ? "Use Outlook" : "使用 Outlook"}</a>
+          <a className="button secondary" href={draft?.mailtoUrl || "#"} aria-disabled={!draft} tabIndex={draft ? 0 : -1}>{english ? "Use device email" : "使用裝置 Email"}</a>
+          <button className="button secondary" type="button" disabled={!draft} onClick={copyEmail}>{english ? "Copy email content" : "複製 Email 內容"}</button>
+        </div>
+        {copyStatus && <p className="copyStatus">{copyStatus}</p>}
+      </section>
     </form>
   );
 }

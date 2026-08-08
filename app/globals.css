@@ -47,6 +47,7 @@ main { min-height: 55vh; }
 .button.outline { min-width: 150px; color: #fff; }
 .button.outline:hover { background: #fff; color: #222; }
 .button.solid { border-color: var(--charcoal); background: var(--charcoal); color: #fff; }
+.button.secondary { border-color: #8d897f; background: #fff; color: var(--charcoal); }
 .button.light { border-color: #fff; background: #fff; color: var(--charcoal); }
 
 .serviceCards { width: min(1000px, calc(100% - 40px)); margin: 60px auto 80px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 55px; }
@@ -73,6 +74,14 @@ main { min-height: 55vh; }
 .contactForm input:focus, .contactForm textarea:focus { border-color: #6b6048; box-shadow: 0 0 0 2px #b29a6633; }
 .contactForm .button { justify-self: start; }
 .formNote { margin: -5px 0 0; color: var(--muted); font-size: 12px; }
+.emailOptions { margin-top: 5px; padding: 22px; border: 1px solid var(--line); background: #fff; }
+.emailOptions[hidden] { display: none; }
+.emailOptions h3 { margin: 0 0 4px; font-size: 20px; font-weight: 500; }
+.emailOptions > p { margin: 0 0 16px; color: var(--muted); font-size: 13px; }
+.emailActionGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.contactForm .emailActionGrid .button { width: 100%; justify-self: stretch; padding: 0 15px; text-align: center; }
+.emailActionGrid button:disabled, .emailActionGrid a[aria-disabled="true"] { cursor: default; opacity: .55; pointer-events: none; }
+.emailOptions .copyStatus { margin: 14px 0 0; color: #386c45; font-weight: 700; }
 
 .pageIntro { padding: 90px max(28px, calc((100vw - 900px) / 2)) 75px; text-align: center; background: var(--paper); }
 .pageIntro h1 { margin: 8px 0 18px; font-size: clamp(38px, 6vw, 64px); line-height: 1.18; font-weight: 400; letter-spacing: .03em; }
@@ -179,6 +188,7 @@ footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #44
   .featureCopy { padding: 42px 26px; }
   .formSection { padding: 55px 22px; }
   .fieldRow { grid-template-columns: 1fr; }
+  .emailActionGrid { grid-template-columns: 1fr; }
   .pageIntro { padding: 64px 24px 54px; }
   .pageIntro h1 { font-size: 39px; }
   .introText { font-size: 16px; }

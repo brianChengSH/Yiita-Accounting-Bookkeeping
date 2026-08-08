@@ -57,3 +57,12 @@ test("contact page keeps direct, serverless contact options", async () => {
   assert.match(html, /line\.me\/ti\/p\/CE4oZqQlch/);
   assert.match(html, /wa\.me\/message\/YOP4EOVNXQJAC1/);
 });
+
+test("contact form offers webmail and copy fallbacks", async () => {
+  const html = await readFile(new URL("contact-us.html", root), "utf8");
+  assert.match(html, /準備寄信方式/);
+  assert.match(html, /使用 Gmail/);
+  assert.match(html, /使用 Outlook/);
+  assert.match(html, /使用裝置 Email/);
+  assert.match(html, /複製 Email 內容/);
+});
