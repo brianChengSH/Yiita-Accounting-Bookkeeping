@@ -211,11 +211,11 @@ export const taxPlanningZh: ArticleSection[] = [
     paragraphs: [
       "擴大書審申報制度又被稱為包稅制。簡單來說，選擇採用擴大書審報稅的企業，按照財政部訂定的擴大書審純益率計算營利所得繳納所得稅後，通常即可免除被查帳的困擾。",
       "擴大書審免查帳的好處，雖然吸引不少企業採用，但也不是所有的企業都可以使用擴大書審方式報稅。根據財政部的規定，適用擴大書審企業有幾個條件：",
-      "應依規定設置帳簿記載並取得、給與及保存憑證，其帳載結算事項，並自行依法調整。調整後之純益率如高於擴大書審純益率，則應依原本較高之純益率申報繳納稅款，不可調低至擴大書審純益率。也就是說申報的純益率只能由低調高，不能由高調低。",
+      "應依規定設置帳簿記載並取得、給與及保存憑證，其帳載結算事項，並自行依法調整，調整後之純益率如高於擴大書審純益率，則應依原本較高之純益率申報繳納稅款，不可調低至擴大書審純益率。也就是說申報的純益率只能由低調高，不能由高調低。符合書審資格的企業，若是獲利比財政部的標準低，只要願意按政府訂定的純益率計算並繳納所得稅，原則上就不再調帳查稅。",
       "優點：符合書審資格的企業，若是獲利比財政部的標準低，只要願意按政府訂定的純益率計算並繳納所得稅，原則上就不再調帳查稅。",
-      "缺點：企業的純益率若比政府訂的標準低或甚至虧損，仍要調整繳稅，也就是繳了不該繳的稅。此時應與會計師討論採取查帳申報的帳務規劃。",
+      "缺點：但擴大書審制度的壞處就是明明企業的純益率就是比政府訂的標準低或甚至虧損，還是要調整繳稅，這對企業來說非常的不利，也就是繳了不該繳的稅。所以如有上述情形時，就應與會計師討論採取查帳申報的帳務規劃。",
     ],
-    bullets: ["全年營業收入淨額及非營業收入合計在新臺幣 3,000 萬元以下之營利事業。", "年度結算申報書表齊全，依法調整純益率在擴大書審純益率以上，並按時繳稅。"],
+    bullets: ["全年營業收入淨額及非營業收入合計在新臺幣3000萬元以下之營利事業，其年度結算申報，書表齊全，自得依法調整純益率在擴大書審純益率以上，並按時繳稅者。"],
   },
   {
     title: "查帳審核",
@@ -223,17 +223,16 @@ export const taxPlanningZh: ArticleSection[] = [
       "所謂查帳審核是指國稅局採調閱營利事業之帳簿文據等有關資料，予以實地查核其申報書表來決定應繳納稅金。",
       "優點：在於自結報表賺多少錢就按此繳稅，不會有像書審申報多繳稅的情形。",
       "缺點：原則上一定是查帳來認定應繳稅金，故帳冊表簿文據的記載方式就必需經得起查，若經不起查就會被核定補繳稅款。",
-      "所以此時記帳的費用也會相對提高。若不想國稅局直接來查帳，則可委託會計師簽證申報來降低直接被國稅局查帳的機率。",
+      "所以此時記帳的費用也會相對提高，但無論如何只要被國稅局查帳，國稅局總是會想盡辦法讓你補繳稅款。因此若不想國稅局直接來查帳，則可委託會計師簽證申報來降低直接被國稅局查帳的機率。",
     ],
   },
   {
     title: "會計師簽證申報",
     paragraphs: [
-      "就是企業的帳冊文據先由會計師來查過，所以國稅局原則上也是書面審核。會計師主要係根據有關稅務法令及一般公認審計準則之規定查核簽證客戶之營利事業所得稅結算申報，及檢查有關交易記錄與會計處理是否符合稅法規定，以核定課稅所得額，並代理申報。",
-      "此項稅務簽證查核報告書，可提供給國稅局，並使客戶避免因不瞭解稅法而導致逃漏稅款甚或多繳不該繳的稅；會計師會在法令許可範圍內，提供合理稅負規劃之建議。",
+      "就是企業的帳冊文據先由會計師來查過，所以國稅局原則上也是書面審核。會計師主要係根據有關稅務法令及一般公認審計準則之規定查核簽證客戶之營利事業所得稅結算申報及檢查有關交易記錄與會計處理是否符合稅法規定，以核定課稅所得額，並代理申報。此項稅務簽證查核報告書，可提供給國稅局，並使客戶避免因不瞭解稅法而導致逃漏稅款甚或多繳不該繳的稅，會計師會在法令許可範圍內，提供合理稅負規劃之建議。",
       "稅法特別針對會計師簽證申報訂有下列獎勵：",
     ],
-    bullets: ["交際費限額提高：費用列支增加約 3 成，可直接減輕稅負。", "盈虧可互抵：企業前 10 年各期虧損，可先自本年度所得額中扣除；前提是虧損年度及扣除年度都有委託會計師查核簽證。", "降低被查帳的風險：國稅局僅就會計師查核簽證報告書書面審核，公司被國稅局直接調帳查核機率較低。"],
+    bullets: ["交際費限額提高：費用列支增加約3成，可直接減輕稅負。", "盈虧可互抵：企業前10年各期虧損，可先自本年度所得額中扣除。但前提是虧損年度及扣除年度都有委託會計師查核簽證。→ 特別適合初期會虧損者。", "降低被查帳的風險：國稅局僅就會計師查核簽證報告書書面審核，公司被國稅局直接調帳查核機率較低。→ 降低補稅風險。"],
   },
 ];
 
@@ -243,11 +242,11 @@ export const taxPlanningEn: ArticleSection[] = [
     paragraphs: [
       "The expanded document-based reporting system, also known as the \"lump-sum tax system,\" allows businesses to calculate their profit tax based on the expanded document-based profit margin set by the Ministry of Finance. Generally, this exempts them from the hassle of audit inspections.",
       "Advantages: Businesses that qualify for document-based reporting and have profits lower than the standard set by the Ministry of Finance can simply calculate and pay their income tax based on the government-set profit margin to avoid audit inspections.",
-      "Disadvantages: Businesses with actual profit margins lower than or even at a loss compared to the government standard still need to adjust their taxes upwards. In such cases, businesses should consult with an accountant to consider opting for audit-based reporting for better financial planning.",
+      "Disadvantages: However, a downside of the expanded document-based system is that businesses with actual profit margins lower than or even at a loss compared to the government standard still need to adjust their taxes upwards. This can be disadvantageous for businesses as it leads to overpayment of taxes. In such cases, businesses should consult with an accountant to consider opting for audit-based reporting for better financial planning.",
       "Eligibility criteria set by the Ministry of Finance for businesses to apply the expanded document-based system include:",
       "In essence, the reported profit margin can only be adjusted upwards, not downwards. Businesses eligible for document-based reporting are not subject to further tax audits if they are willing to calculate and pay income tax based on the government-set profit rate, even if their actual profits are lower than the ministry's standard.",
     ],
-    bullets: ["Total annual business and non-business income below NT$30 million.", "Annual settlement reports with complete documentation, adjusting the net profit margin above the expanded document-based rate, and timely tax payment.", "Properly maintained books of accounts and supporting documents, with self-adjustments according to law."],
+    bullets: ["Total annual business and non-business income below NT$30 million.", "Annual settlement reports with complete documentation, adjusting the net profit margin above the expanded document-based rate, and timely tax payment.", "Properly maintained books of accounts and supporting documents, with self-adjustments according to law. If the adjusted net profit margin is higher than the expanded document-based rate, taxes should be filed based on the higher original rate, not reduced to the expanded rate."],
   },
   {
     title: "Audit Inspection",
@@ -255,17 +254,17 @@ export const taxPlanningEn: ArticleSection[] = [
       "An audit inspection refers to the National Taxation Bureau's process of examining a profit-making business's accounting books, documents, and other relevant data to determine the tax payable based on their filed returns.",
       "Advantages: Taxes are paid based on the self-compiled financial statements, which means there's no overpayment of taxes as might occur with document-based audits.",
       "Disadvantages: The tax payable is determined primarily through an audit, so the accounting records must withstand scrutiny. If they do not, additional taxes may be assessed.",
-      "Therefore, the cost of bookkeeping may increase. To reduce the risk of direct tax audits, one can opt for an accountant-certified filing, which lessens the likelihood of being directly audited by the tax authorities.",
+      "Therefore, the cost of bookkeeping may increase. However, once audited by the National Taxation Bureau, they often find ways to impose additional tax payments. To reduce the risk of direct tax audits, one can opt for an accountant-certified filing, which lessens the likelihood of being directly audited by the tax authorities.",
     ],
   },
   {
     title: "Accountant-Certified Filing",
     paragraphs: [
-      "Accounting records and documents of a business are initially reviewed by an accountant. Accountants audit and certify clients' profit-seeking enterprise income tax settlement reports according to relevant tax laws and generally accepted auditing standards. They examine whether the related transactions and accounting treatments comply with tax regulations to determine the taxable income and represent the client in filing tax returns.",
+      "Accounting records and documents of a business are initially reviewed by an accountant. As a principle, the National Taxation Bureau also conducts a written audit. Accountants mainly audit and certify clients' profit-seeking enterprise income tax settlement reports according to relevant tax laws and generally accepted auditing standards. They examine whether the related transactions and accounting treatments comply with tax regulations to determine the taxable income and represent the client in filing tax returns.",
       "This tax audit report can be provided to the National Taxation Bureau, helping clients avoid tax evasion or overpayment due to unfamiliarity with tax laws. Within the legal framework, accountants offer advice for reasonable tax burden planning.",
       "The tax law specifically provides the following incentives for accountant-certified filings:",
     ],
-    bullets: ["Increased entertainment expense limit: Approximately a 30% increase in deductible expenses, directly reducing the tax burden.", "Loss offsetting: Losses in any of the first 10 years of a business can be deducted from the current year's income, provided that the accountant audited those loss years and the deduction year.", "Reduced risk of audit: The National Taxation Bureau primarily conducts written reviews based on the accountant’s audit report, reducing the likelihood of direct audits and the risk of additional tax payments."],
+    bullets: ["Increased entertainment expense limit: Approximately a 30% increase in deductible expenses, directly reducing the tax burden.", "Loss offsetting: Losses in any of the first 10 years of a business can be deducted from the current year's income, provided that the accountant audited those loss years and the deduction year. This is especially suitable for businesses that initially incur losses.", "Reduced risk of audit: The National Taxation Bureau primarily conducts written reviews based on the accountant’s audit report, reducing the likelihood of direct audits by the tax authorities and hence lowering the risk of additional tax payments."],
   },
 ];
 
