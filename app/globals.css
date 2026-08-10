@@ -51,18 +51,20 @@ main { min-height: 55vh; }
 .eyebrow { display: inline-block; color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: .2em; }
 .button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; padding: 0 26px; border: 1px solid currentColor; cursor: pointer; letter-spacing: .04em; transition: transform .2s, background .2s, color .2s; }
 .button:hover { transform: translateY(-2px); }
+.button:active { transform: translateY(0); }
 .button.outline { min-width: 150px; color: #fff; }
 .button.outline:hover { background: #fff; color: #222; }
 .button.solid { border-color: var(--charcoal); background: var(--charcoal); color: #fff; }
 .button.secondary { border-color: #8d897f; background: #fff; color: var(--charcoal); }
 .button.light { border-color: #fff; background: #fff; color: var(--charcoal); }
 
-.serviceCards { width: min(1000px, calc(100% - 40px)); margin: 60px auto 80px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 55px; }
-.serviceCard { text-align: center; padding: 10px; }
-.serviceCard img { width: 86px; height: 86px; margin: 0 auto 14px; object-fit: contain; }
-.serviceCard h3 { margin: 8px 0 4px; font-size: 20px; font-weight: 500; }
-.serviceCard p { min-height: 54px; margin: 0 0 12px; color: var(--muted); }
-.serviceCard span { color: #7d683c; font-size: 14px; }
+.serviceCards { width: min(1080px, calc(100% - 40px)); margin: 60px auto 80px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.serviceCard { min-height: 220px; display: flex; flex-direction: column; align-items: flex-start; padding: 34px clamp(28px, 3vw, 44px); border-left: 1px solid var(--line); transition: background-color .2s; }
+.serviceCard:first-child { border-left: 0; }
+.serviceCard:hover { background: var(--paper); }
+.serviceCard h3 { margin: 0 0 10px; font-size: 20px; font-weight: 500; }
+.serviceCard p { max-width: 30ch; margin: 0 0 20px; color: var(--muted); }
+.serviceLink { margin-top: auto; color: #7d683c; font-size: 14px; }
 
 .split { width: min(var(--max), calc(100% - 40px)); margin: 0 auto 60px; display: grid; grid-template-columns: 1fr 1fr; min-height: 420px; }
 .split > img { width: 100%; height: 100%; object-fit: cover; }
@@ -222,7 +224,11 @@ footer strong { font-size: 18px; }
 footer p { margin: 5px 0 0; color: #aaa9a5; }
 .footerLinks { display: grid; align-content: start; gap: 2px; text-align: right; }
 footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #444; color: #888; }
-.floatingContact { position: fixed; right: 22px; bottom: 22px; z-index: 40; padding: 15px 23px; color: #fff; background: var(--cyan); box-shadow: 0 7px 20px #0003; }
+.floatingContact { position: fixed; right: 22px; bottom: 22px; z-index: 40; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 23px; color: #fff; background: var(--cyan); box-shadow: 0 7px 20px #0003; transition: transform .2s; }
+.floatingContact:hover { transform: translateY(-2px); }
+.floatingContact:focus-visible { outline-color: #fff; outline-offset: 4px; }
+.floatingContact:active { transform: translateY(0); }
+.floatingContactCompact { display: none; }
 
 @media (max-width: 900px) {
   .menuButton { width: 100%; min-height: 50px; display: flex; align-items: center; gap: 5px; padding: 0 20px; border: 0; color: #fff; background: var(--charcoal); }
@@ -237,7 +243,6 @@ footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #44
   .englishNavGroup .dropdown { min-width: 0; }
   .brandHeader { padding: 30px 18px; }
   .brandHeader a { width: min(720px, 92vw); }
-  .serviceCards { gap: 16px; }
   .split { grid-template-columns: 1fr; }
   .split > img { height: 340px; }
   .reverse img { order: 2; }
@@ -257,8 +262,6 @@ footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #44
   .tableWrap td:first-child { z-index: 1; font-weight: 600; }
   .tableWrap tbody tr:nth-child(odd) td:first-child { background: #fff; }
   .tableWrap tbody tr:nth-child(even) td:first-child { background: #f7f5f0; }
-  .siteShell:has(.tableWrap) { height: calc(100vh - 64px); height: calc(100svh - 64px); min-height: 0; overflow-y: auto; }
-  .siteShell:has(.tableWrap) .floatingContact { right: 12px; bottom: 12px; padding: 11px 15px; font-size: 13px; }
 }
 
 @media (max-width: 640px) {
@@ -269,7 +272,8 @@ footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #44
   .heroPanel h2 { font-size: 16px; }
   .heroPanel p { font-size: 16px; }
   .serviceCards { grid-template-columns: 1fr; margin: 40px auto 55px; }
-  .serviceCard p { min-height: 0; }
+  .serviceCard { min-height: 0; padding: 28px 4px; border-top: 1px solid var(--line); border-left: 0; }
+  .serviceCard:first-child { border-top: 0; }
   .split { width: 100%; margin-bottom: 0; }
   .split > img { height: 280px; }
   .featureCopy { padding: 42px 26px; }
@@ -306,7 +310,9 @@ footer small { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #44
   footer { grid-template-columns: 1fr; }
   .footerLinks { text-align: left; }
   footer small { grid-column: 1; }
-  .floatingContact { right: 12px; bottom: 12px; padding: 11px 15px; font-size: 13px; }
+  .floatingContact { right: 12px; bottom: 12px; width: 58px; min-height: 58px; padding: 8px; text-align: center; line-height: 1.2; }
+  .floatingContactFull { display: none; }
+  .floatingContactCompact { display: inline; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
 }
 
 @media (prefers-reduced-motion: reduce) {

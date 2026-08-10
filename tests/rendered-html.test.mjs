@@ -26,6 +26,19 @@ test("exports the bilingual Yiita home pages", async () => {
   assert.ok(zh.includes(`src="${basePath}/images/yiita-logo.avif"`));
   assert.ok(zh.includes(`src="${expectedAssetPrefix}/_next/static/`));
   assert.ok(zh.includes(`${expectedSiteUrl}/og.png`));
+  assert.doesNotMatch(zh, /service-(?:registration|bookkeeping|contact)\.avif/);
+  assert.match(zh, /class="serviceLink">了解更多/);
+  assert.match(en, /class="serviceLink">Learn more/);
+});
+
+test("keeps the floating contact action compactable without changing its accessible name", async () => {
+  const [home, contact] = await Promise.all([
+    readFile(new URL("index.html", root), "utf8"),
+    readFile(new URL("contact-us.html", root), "utf8"),
+  ]);
+  assert.match(home, /class="floatingContact"[^>]*aria-label="立即展開交談"/);
+  assert.match(home, /class="floatingContactCompact" aria-hidden="true">聯絡/);
+  assert.doesNotMatch(contact, /class="floatingContact"/);
 });
 
 test("keeps framework assets at the deployment artifact root", async () => {
@@ -82,6 +95,7 @@ test("contact page keeps direct, serverless contact options", async () => {
 test("contact form offers webmail and copy fallbacks", async () => {
   const html = await readFile(new URL("contact-us.html", root), "utf8");
   assert.match(html, /檢查並選擇寄送方式/);
+  assert.match(html, /<button class="button solid" type="button">檢查並選擇寄送方式<\/button>/);
   assert.match(html, /完成檢查並選擇 Email 寄送方式前，不會送出任何內容/);
   assert.match(html, /開啟 Email App/);
   assert.match(html, /使用 Gmail/);
@@ -184,7 +198,7 @@ test("Chinese pages preserve the original long-form content", async () => {
 
 test("English pages contain complete English decision content", async () => {
   const expectedMarkers = {
-    "en.html": ["Regardless of your inquiries pertaining to finance", "Customers from 15+ countries", "Immediate Inquiry to Yiita"],
+    "en.html": ["Regardless of your inquiries pertaining to finance", "Customers from 15+ countries", "Talk to Yiita about the questions"],
     "en/services.html": ["Purchase and Ship Latest Invoices", "Contact Yiita Accounting &amp; Bookkeeping Service"],
     "en/registration-services.html": ["Tobacco Import Business", "Specific Pet Services", "Establishment of Labor and Health Insurance Coverage Unit"],
     "en/company-register-docs.html": ["Documents required for company establishment", "Company name availability search"],

@@ -254,9 +254,7 @@ function ContactForm({ english = false }: { english?: boolean }) {
   const [copyStatus, setCopyStatus] = useState("");
   const optionsRef = useRef<HTMLElement>(null);
 
-  function prepareMail(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
+  function prepareMail(form: HTMLFormElement) {
     const data = new FormData(form);
     const nextErrors = validateContact(data, english);
 
@@ -274,6 +272,11 @@ function ContactForm({ english = false }: { english?: boolean }) {
     setDraft(buildEmailDraft(data, english));
     setCopyStatus("");
     requestAnimationFrame(() => optionsRef.current?.focus());
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    prepareMail(event.currentTarget);
   }
 
   function handleFieldChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -311,7 +314,7 @@ function ContactForm({ english = false }: { english?: boolean }) {
   }
 
   return (
-    <form className="contactForm" onSubmit={prepareMail} onChange={handleFieldChange} noValidate>
+    <form className="contactForm" onSubmit={handleSubmit} onChange={handleFieldChange} noValidate>
       <p className={"formStatus" + (draft ? " isReady" : "")} aria-live="polite">
         {draft
           ? (english ? "Draft prepared — it has not been sent yet." : "草稿已準備完成，目前尚未寄出。")
@@ -324,7 +327,7 @@ function ContactForm({ english = false }: { english?: boolean }) {
       <label htmlFor="contact-email">Email<input id="contact-email" required name="email" type="email" autoComplete="email" inputMode="email" maxLength={contactLimits.email} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "contact-email-error" : undefined} />{errors.email && <span className="fieldError" id="contact-email-error">{errors.email}</span>}</label>
       <label htmlFor="contact-topic">{english ? "Subject" : "標題"}<input id="contact-topic" name="topic" maxLength={contactLimits.topic} placeholder={english ? "Quote enquiry or other question" : "詢問報價、詢問其他事項"} aria-invalid={Boolean(errors.topic)} aria-describedby={errors.topic ? "contact-topic-error" : undefined} />{errors.topic && <span className="fieldError" id="contact-topic-error">{errors.topic}</span>}</label>
       <label htmlFor="contact-message">{english ? "How can we help?" : "請留下您的需求"}<textarea id="contact-message" required name="message" rows={6} maxLength={contactLimits.message} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? "contact-message-error" : undefined} />{errors.message && <span className="fieldError" id="contact-message-error">{errors.message}</span>}</label>
-      <button className="button solid" type="submit">{english ? "Review sending options" : "檢查並選擇寄送方式"}</button>
+      <button className="button solid" type="button" onClick={(event) => event.currentTarget.form && prepareMail(event.currentTarget.form)}>{english ? "Review sending options" : "檢查並選擇寄送方式"}</button>
       <p className="formNote">{english ? "This website does not store your entries. Your email app or webmail service handles the final sending step." : "本網站不會儲存您填寫的資料；最後寄送步驟會交由您的 Email App 或網頁信箱完成。"}</p>
       {copyStatus && <p className="copyStatus" aria-live="polite">{copyStatus}</p>}
       <section ref={optionsRef} className="emailOptions" hidden={!draft} tabIndex={-1} aria-live="polite" aria-label={english ? "Email sending options" : "寄信方式"}>
@@ -503,15 +506,14 @@ function Home({ english = false }: { english?: boolean }) {
 
       <section className="serviceCards" aria-label={english ? "Our services" : "主要服務"}>
         {[
-          ["/images/service-registration.avif", english ? "Business Registration" : "工商登記", english ? "Handling company registration, business registration, and related applications." : "辦理公司登記、行號登記等業務", english ? "/en/registration-services" : "/registration-services"],
-          ["/images/service-bookkeeping.avif", english ? "Bookkeeping Services" : "記帳服務", english ? "Resolve bookkeeping, tax filing, and accounting tasks with reliable support." : "輕鬆就能解決記帳、報稅等傷透腦筋的事物", english ? "/en/services" : "/services"],
-          ["/images/service-contact.avif", english ? "Request for a quote." : "詢問報價", english ? "Immediate Inquiry to Yiita to Solve Your Current Issues." : "立即詢問乙達，解決您腦中目前的問題", english ? "/en/contact-us" : "/contact-us"],
-        ].map(([image, title, copy, href]) => (
+          [english ? "Business Registration" : "工商登記", english ? "Handling company registration, business registration, and related applications." : "辦理公司登記、行號登記等業務", english ? "/en/registration-services" : "/registration-services"],
+          [english ? "Bookkeeping Services" : "記帳服務", english ? "Resolve bookkeeping, tax filing, and accounting tasks with reliable support." : "協助處理記帳、報稅等繁複的會計事務", english ? "/en/services" : "/services"],
+          [english ? "Request a Quote" : "詢問報價", english ? "Talk to Yiita about the questions your business is facing now." : "立即詢問乙達，釐清您目前面對的問題", english ? "/en/contact-us" : "/contact-us"],
+        ].map(([title, copy, href]) => (
           <a className="serviceCard" href={sitePath(href)} key={title}>
-            <img src={sitePath(image)} alt="" />
             <h3>{title}</h3>
             <p>{copy}</p>
-            <span>{english ? "Learn more" : "了解更多"} →</span>
+            <span className="serviceLink">{english ? "Learn more" : "了解更多"} →</span>
           </a>
         ))}
       </section>
@@ -763,5 +765,7 @@ export function Site({ path }: { path: string }) {
     default: page = <NotFound english={english} />;
   }
 
-  return <div className="siteShell" lang={english ? "en" : "zh-Hant"}><Header path={path} english={english} /><main>{page}</main><Footer english={english} />{route !== "/contact-us" && <a className="floatingContact" href={sitePath(english ? "/en/contact-us" : "/contact-us")}>{english ? "Talk to Yiita" : "立即展開交談"}</a>}</div>;
+  const contactLabel = english ? "Talk to Yiita" : "立即展開交談";
+
+  return <div className="siteShell" lang={english ? "en" : "zh-Hant"}><Header path={path} english={english} /><main>{page}</main><Footer english={english} />{route !== "/contact-us" && <a className="floatingContact" href={sitePath(english ? "/en/contact-us" : "/contact-us")} aria-label={contactLabel}><span className="floatingContactFull">{contactLabel}</span><span className="floatingContactCompact" aria-hidden="true">{english ? "Talk" : "聯絡"}</span></a>}</div>;
 }
