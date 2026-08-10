@@ -65,6 +65,18 @@ export const companyDocumentRows = [
   ["9. 存款餘額證明影本(證明至簽證日)", "✓", "", ""],
 ];
 
+export const companyDocumentRowsEn = [
+  ["1. Proposed company names (2–3 options)", "✓", "✓", "Company name availability search"],
+  ["2. Proposed business activities", "✓", "✓", "Business activity code search"],
+  ["3. Copy of the responsible person’s ID", "✓", "✓", ""],
+  ["4. Copies of all shareholders’ IDs", "✓", "✓", ""],
+  ["5. Two copies of the lease in the business name or the owner’s consent", "✓", "✓", ""],
+  ["6. Copy of the house tax statement or building ownership deed", "✓", "✓", ""],
+  ["7. Documents required for CPA capital verification", "✓", "", ""],
+  ["8. Copies of the bank passbook cover, seal page, and balance page", "✓", "", ""],
+  ["9. Bank balance certificate through the verification date", "✓", "", ""],
+];
+
 export const businessTypeRows = [
   ["公司名稱規定", "xx商店、xx小吃店\nxx商行、xx企業社\n(本縣市內不得重複)", "xx有限公司\nxx企業有限公司\n(全國不得重複)", "xx股份有限公司\nxx企業股份有限公司\n(全國不得重複)"],
   ["資本額", "不限\n※特殊行業有限制", "不限(建議不要低於10萬)\n※特殊行業有限制", "不限(建議不要低於10萬)\n※特殊行業有限制"],
@@ -77,15 +89,34 @@ export const businessTypeRows = [
   ["負責人限制出境金額", "欠稅200萬元以上", "欠稅200萬元以上", "欠稅200萬元以上"],
   ["證明文件 營登已廢除", "商業登記核准函", "公司登記核准函", "公司登記核准函"],
   ["進出口登記", "經營進出口業務要辦理", "經營進出口業務要辦理", "經營進出口業務要辦理"],
-  ["證明文件 營登已廢除", "商業登記核准函", "公司登記核准函", "公司登記核准函"],
   ["綜合所得稅 (股東)", "當年度盈餘直接併入\n資本主或合夥人綜合所得", "分配年度\n增加股東綜合所得", "分配年度\n增加股東綜合所得"],
   ["發票使用", "原則:要使用發票\n例外:小規模營業人可申請免用統一發票", "一定要使用發票", "一定要使用發票"],
   ["所得稅暫繳", "", "每年9月底前，依上年度已納稅額50%繳納", "每年9月底前，依上年度已納稅額50%繳納"],
   ["扣繳申報", "負扣繳義務", "負扣繳義務", "負扣繳義務"],
   ["營業稅稅率", "5%", "5%", "5%"],
   ["營利事業所得稅率", "20%", "20%", "20%"],
-  ["盈餘分配", "當年盈餘要全部分配", "盈餘要分配，於次年6/30前決定分配金額\n未分配之盈餘需加徵10%", "盈餘要分配，於次年6/30前決定分配金額\n未分配之盈餘需加徵10%"],
-  ["股東責任", "無限清償責任", "以出資額為限", "以出資額為限"],
+  ["盈餘分配", "當年盈餘要全部分配", "盈餘要分配，於次年6/30前決定分配金額\n未分配盈餘原則上加徵 5% 營利事業所得稅", "盈餘要分配，於次年6/30前決定分配金額\n未分配盈餘原則上加徵 5% 營利事業所得稅"],
+];
+
+export const businessTypeRowsEn = [
+  ["Naming rules", "Names such as “XX Store,” “XX Eatery,” or “XX Enterprise”\nMust be unique within the city or county", "Names ending in “Limited Company”\nMust be unique nationwide", "Names ending in “Company Limited by Shares”\nMust be unique nationwide"],
+  ["Capital", "No general minimum\nRegulated industries may have separate requirements", "No general minimum; capital must be sufficient for formation costs\nRegulated industries may have separate requirements", "No general minimum; capital must be sufficient for formation costs\nRegulated industries may have separate requirements"],
+  ["Proof of funds / capital verification", "Proof is generally not required below NT$250,000; proof of funds is required at or above that amount", "CPA capital verification required", "CPA capital verification required"],
+  ["Number of owners or shareholders", "One owner for a sole proprietorship\nTwo or more partners for a partnership", "One or more", "Two or more shareholders\nGovernance requirements also apply"],
+  ["Age requirements", "The owner or partners must be adults", "Director and responsible person must be adults; other shareholders may be minors", "Directors, supervisor, and responsible person must be adults; other shareholders may be minors"],
+  ["Transfer of ownership interests", "A sole proprietorship may become a partnership; a partnership may not become a sole proprietorship", "Subject to statutory approval requirements", "Shares are generally transferable, subject to law and the articles"],
+  ["Formation documents and governance", "Original partnership agreement for a partnership", "Original shareholder consent; at least one director who serves as the responsible person", "Shareholders’ and board meetings; directors, chairperson, and supervisor as required by law"],
+  ["Owner or shareholder liability", "Unlimited liability", "Limited to the subscribed capital contribution", "Limited to the subscribed shareholding"],
+  ["Travel restriction threshold for tax arrears", "Tax arrears of NT$2 million or more", "Tax arrears of NT$2 million or more", "Tax arrears of NT$2 million or more"],
+  ["Registration evidence", "Business registration approval letter", "Company registration approval letter", "Company registration approval letter"],
+  ["Import and export registration", "Required when conducting import or export business", "Required when conducting import or export business", "Required when conducting import or export business"],
+  ["Individual income tax for owners or shareholders", "Current-year profit is included directly in the owner’s or partners’ individual income", "Distributed earnings increase shareholders’ individual income in the distribution year", "Distributed earnings increase shareholders’ individual income in the distribution year"],
+  ["Uniform invoices", "Generally required; qualifying small businesses may apply for exemption", "Required", "Required"],
+  ["Provisional income tax payment", "Not applicable", "Generally 50% of the prior year’s tax paid by the end of September", "Generally 50% of the prior year’s tax paid by the end of September"],
+  ["Withholding filings", "Required where the business is a withholding agent", "Required where the company is a withholding agent", "Required where the company is a withholding agent"],
+  ["Business tax rate", "5%", "5%", "5%"],
+  ["Profit-seeking enterprise income tax rate", "20%", "20%", "20%"],
+  ["Earnings distribution", "Current-year earnings are attributed to the owner or partners", "Distribution is resolved by June 30 of the following year; undistributed earnings are generally subject to an additional 5% tax", "Distribution is resolved by June 30 of the following year; undistributed earnings are generally subject to an additional 5% tax"],
 ];
 
 export const foreignCompanyRows = [
@@ -102,11 +133,32 @@ export const foreignCompanyRows = [
   ["申請外國人工作證", "經理、技術人員", "經理、技術人員"],
   ["統一發票", "✓", "✓"],
   ["營業稅稅率", "5%", "5%"],
-  ["所得稅稅率", "17%", "17%"],
-  ["非居住者(小於183天)盈餘分配扣繳稅率", "20%", "20%"],
-  ["盈餘不分配加徵稅率", "10%", "10%"],
+  ["所得稅稅率", "20%", "20%"],
+  ["非居住者(小於183天)盈餘分配扣繳稅率", "21%（租稅協定可能另有規定）", "21%（租稅協定可能另有規定）"],
+  ["盈餘不分配加徵稅率", "5%", "5%"],
   ["設立時需認證的文件", "1.母公司執照\n2.投資代理人授權書", "1.母公司執照\n2.投資代理人授權書"],
   ["發展及限制", "不可以公開發行股票，需先改制為股份有限公司。\n可在台灣設立自屬的分公司。", "可以公開發行股票及上市上櫃。\n可在台灣設立自屬的分公司。"],
+];
+
+export const foreignCompanyRowsEn = [
+  ["Eligible shareholders", "Foreign legal entities or individuals", "Foreign legal entities or individuals"],
+  ["May conduct business", "✓", "✓"],
+  ["May import and export", "✓", "✓"],
+  ["Separate legal entity", "✓", "✓"],
+  ["Number of shareholders", "One or more individuals or legal entities", "Two or more individuals, or one or more legal entities"],
+  ["Required roles", "At least one director\nOne investment registration agent", "Directors and supervisor as required by law\nOne investment registration agent"],
+  ["Registered address", "Must satisfy applicable business-use rules", "Must satisfy applicable business-use rules"],
+  ["Minimum capital", "No general minimum; capital must be sufficient for formation costs", "No general minimum; capital must be sufficient for formation costs"],
+  ["May publicly issue shares", "No", "Yes, subject to applicable requirements"],
+  ["May open a securities investment account", "✓", "✓"],
+  ["Foreign work permit applicants", "Managers or technical personnel", "Managers or technical personnel"],
+  ["Uniform invoices", "✓", "✓"],
+  ["Business tax rate", "5%", "5%"],
+  ["Profit-seeking enterprise income tax rate", "20%", "20%"],
+  ["Withholding on earnings distributed to non-residents staying under 183 days", "21% unless an applicable tax treaty provides otherwise", "21% unless an applicable tax treaty provides otherwise"],
+  ["Additional tax on undistributed earnings", "5%", "5%"],
+  ["Documents generally requiring authentication", "1. Parent company registration document\n2. Power of attorney for the investment agent", "1. Parent company registration document\n2. Power of attorney for the investment agent"],
+  ["Development and limitations", "Cannot publicly issue shares without converting to a company limited by shares; may establish its own Taiwan branch", "May publicly issue shares or seek a listing when applicable; may establish its own Taiwan branch"],
 ];
 
 export const foreignBranchRows = [
@@ -123,15 +175,39 @@ export const foreignBranchRows = [
   ["申請外國人工作證", "經理、技術人員", "代表人"],
   ["統一發票", "有", "⛌"],
   ["營業稅稅率", "5%", "⛌"],
-  ["所得稅稅率", "17%", "⛌"],
+  ["所得稅稅率", "20%", "⛌"],
   ["非居住者(小於183天)盈餘分配扣繳稅率", "盈餘匯回不需扣繳", "⛌"],
   ["盈餘不分配加徵稅率", "不需加徵", "⛌"],
   ["設立時需認證的文件", "1.總公司執照\n2.總公司章程\n3.總公司董事會議事錄\n4.分公司代表人授權書\n5.分公司經理授權書", "1.總公司執照\n2.辦事處代表人授權書"],
 ];
 
+export const foreignBranchRowsEn = [
+  ["Parent organization", "Foreign head office", "Foreign head office"],
+  ["May conduct business", "✓", "No"],
+  ["May import and export", "✓", "No"],
+  ["Separate legal entity", "No", "No"],
+  ["Shareholders required", "No", "No"],
+  ["Required roles", "One representative\nOne manager", "One representative"],
+  ["Registered address", "Must satisfy applicable business-use rules", "A general office address may be registered, subject to review"],
+  ["Minimum operating capital", "No general minimum; foreign-currency investment must be remitted from abroad", "None"],
+  ["May publicly issue shares", "No", "No"],
+  ["May open a securities investment account", "No", "No"],
+  ["Foreign work permit applicants", "Managers or technical personnel", "Representative"],
+  ["Uniform invoices", "Required", "Not applicable"],
+  ["Business tax rate", "5%", "Not applicable"],
+  ["Profit-seeking enterprise income tax rate", "20%", "Not applicable"],
+  ["Withholding when profits are remitted", "No dividend withholding on remitted branch profits", "Not applicable"],
+  ["Additional tax on undistributed earnings", "Not applicable", "Not applicable"],
+  ["Documents generally requiring authentication", "1. Head-office registration document\n2. Head-office articles\n3. Board minutes\n4. Power of attorney for the branch representative\n5. Power of attorney for the branch manager", "1. Head-office registration document\n2. Power of attorney for the representative"],
+];
+
 export const companyApplicationProcess = "母公司執照，授權書認證 5天 ➡ 公司名稱審查 1天 ➡ 投資審查 5天 ➡ 銀行開戶(負責人親辦) 1天 ➡ 匯入股款 3天 ➡ 資金審查 5天 ➡ 地址簽約 0天 ➡ 公司登記 4天 ➡ 營業登記 5天 ➡ 負責人簽名(負責人親辦) 1天";
 export const branchApplicationProcess = "母公司執照等文件認證 5天 ➡ 公司名稱審查 2天 ➡ 地址簽約 0天 ➡ 銀行開戶(代表人親辦) 1天 ➡ 公司登記 4天 ➡ 匯入營運資金 5天 ➡ 資金審查 5天 ➡ 營業登記 5天 ➡ 代表人簽名(代表人親辦) 1天";
 export const officeApplicationProcess = "母公司執照，授權書認證 5天 ➡ 辦事處設立註冊 5天 ➡ 稅籍註冊 1天";
+
+export const companyApplicationProcessEn = "Authenticate the parent-company registration document and power of attorney (5 days) ➡ company-name review (1 day) ➡ investment review (5 days) ➡ bank account opening in person (1 day) ➡ capital remittance (3 days) ➡ capital verification (5 days) ➡ address agreement (timing varies) ➡ company registration (4 days) ➡ tax registration (5 days) ➡ responsible person signs in person (1 day)";
+export const branchApplicationProcessEn = "Authenticate head-office documents (5 days) ➡ company-name review (2 days) ➡ address agreement (timing varies) ➡ bank account opening in person (1 day) ➡ branch registration (4 days) ➡ operating-fund remittance (5 days) ➡ fund verification (5 days) ➡ tax registration (5 days) ➡ representative signs in person (1 day)";
+export const officeApplicationProcessEn = "Authenticate the head-office registration document and power of attorney (5 days) ➡ representative-office registration (5 days) ➡ tax registration (1 day)";
 
 export const establishmentSteps: DetailedStep[] = [
   { number: "01", title: "公司行號比一比" },
@@ -140,6 +216,15 @@ export const establishmentSteps: DetailedStep[] = [
   { number: "04", title: "申請稅籍登記" },
   { number: "05", title: "雇用員工勞健保" },
   { number: "06", title: "聯繫乙達記帳士事務所" },
+];
+
+export const establishmentStepsEn: DetailedStep[] = [
+  { number: "01", title: "Compare a company with a sole proprietorship" },
+  { number: "02", title: "Choose and reserve the business name" },
+  { number: "03", title: "Complete company or business registration" },
+  { number: "04", title: "Complete tax registration" },
+  { number: "05", title: "Arrange labor and health insurance for employees" },
+  { number: "06", title: "Contact Yiita Accounting & Bookkeeping Service" },
 ];
 
 export const startupSteps: DetailedStep[] = [
@@ -157,12 +242,34 @@ export const startupSteps: DetailedStep[] = [
   { number: "07", title: "委託會計師稅務簽證", copy: "年度稅務規劃" },
 ];
 
+export const startupStepsEn: DetailedStep[] = [
+  { number: "01", title: "Consult Yiita Accounting & Bookkeeping Service", copy: "Tell us about your planned business and timeline." },
+  { number: "02", title: "Engage Yiita for company registration", copy: "The consultation fee is half of the formation fee and is credited in full when the company setup is completed." },
+  { number: "03", title: "Prepare and submit the registration", copy: "Yiita confirms the required documents and handles the agreed application work." },
+  { number: "04", title: "Complete registration with the Ministry of Economic Affairs", copy: "Receive the Unified Business Number, settle the remaining fee, and continue with tax and import/export registration where applicable." },
+  { number: "5.1", title: "Apply for tax registration with the local National Taxation Bureau" },
+  { number: "5.a", title: "Apply for import and export registration where required" },
+  { number: "5.2", title: "The responsible person signs after the tax authority issues its approval" },
+  { number: "5.3", title: "Complete the uniform-invoice purchasing procedure", copy: "For bookkeeping clients, Yiita can accompany the responsible person and assist with invoice purchases." },
+  { number: "5.4", title: "Registration is complete and the company may begin operating" },
+  { number: "06", title: "Begin ongoing bookkeeping", copy: "Prepare accounting records and file bi-monthly business tax and annual profit-seeking enterprise income tax as applicable." },
+  { number: "07", title: "Arrange CPA tax certification where appropriate", copy: "Review annual tax planning with a qualified professional." },
+];
+
 export const limitedCompanySteps: DetailedStep[] = [
   { number: "01", title: "名稱預查送件", copy: "委託人請準備：公司預定名稱 2-3 個、營業項目 2-10 項、負責人身分證影本。名稱預查輔助、營業項目查詢。" },
   { number: "02", title: "選定銀行開公司籌備戶", copy: "名稱預查核定書、私章（預定負責人）" },
   { number: "03", title: "繳足資本總額", copy: "股東匯錢進公司帳戶、會計師資本額查核報告" },
   { number: "04", title: "召開股東會議", copy: "訂立章程、選任董監事、董事願任同意書（簽名）、股東同意書（簽名）、會計師資本額查核簽證委託書（簽名）" },
   { number: "05", title: "確定公司登記地址", copy: "租賃契約、所有權人同意書、房屋稅單" },
+];
+
+export const limitedCompanyStepsEn: DetailedStep[] = [
+  { number: "01", title: "Submit the company-name reservation", copy: "Prepare 2–3 proposed names, 2–10 business activities, and a copy of the responsible person’s ID." },
+  { number: "02", title: "Open a preparatory company bank account", copy: "The bank generally requests the approved name reservation and the proposed responsible person’s seal." },
+  { number: "03", title: "Pay in the subscribed capital", copy: "Shareholders remit capital to the preparatory account and a CPA prepares the capital verification report." },
+  { number: "04", title: "Complete shareholder resolutions and formation documents", copy: "Prepare the articles, director appointment and consent, shareholder consent, and CPA engagement documents as applicable." },
+  { number: "05", title: "Confirm the registered address", copy: "Prepare the lease, owner’s consent, and house tax statement." },
 ];
 
 export const foreignSetupStepsZh: DetailedStep[] = [
@@ -202,7 +309,17 @@ export const foreignCurrencySteps: DetailedStep[] = [
   { number: "04", title: "匯入股款(銀行)", copy: "外國股東境外匯入公司籌備戶投資金額、國內股東匯入股款" },
   { number: "05", title: "資金審定(投審會)", copy: "投審會核准函、匯人匯款通知書（正本）、結匯水單（正本）、存摺影本" },
   { number: "06", title: "公司登記地址文件", copy: "租賃契約影本、所有權人同意書影本、房屋稅單影本" },
-  { number: "06", title: "股東會相關文件", copy: "投審會核准公文影本、訂立章程、選任董監事、董事願任同意書（簽名）、股東同意書（簽名）、會計師資本額查核簽證委託書（簽名）、法人資格證明（公、驗證）、法人代表指派書（簽名）、自然人護照影本、會計師資本額查核報告" },
+  { number: "07", title: "股東會相關文件", copy: "投審會核准公文影本、訂立章程、選任董監事、董事願任同意書（簽名）、股東同意書（簽名）、會計師資本額查核簽證委託書（簽名）、法人資格證明（公、驗證）、法人代表指派書（簽名）、自然人護照影本、會計師資本額查核報告" },
+];
+
+export const foreignCurrencyStepsEn: DetailedStep[] = [
+  { number: "01", title: "Submit the company-name reservation", copy: "Prepare 2–3 proposed names, 2–10 business activities, and identification for the proposed responsible person." },
+  { number: "02", title: "Apply for foreign investment approval", copy: "Documents may include an authenticated agent authorization, authenticated legal-entity registration evidence, a foreign-investor declaration, and passport copies." },
+  { number: "03", title: "Open a preparatory company bank account", copy: "The bank may request the approved name reservation, the proposed responsible person’s seal, the original passport, and a Taiwan identification-number record." },
+  { number: "04", title: "Remit the capital", copy: "Foreign shareholders remit investment funds from abroad; domestic shareholders remit their subscribed capital." },
+  { number: "05", title: "Apply for investment-amount verification", copy: "Prepare the investment approval, inward-remittance notice, foreign-exchange memo, and bank passbook copy as applicable." },
+  { number: "06", title: "Prepare registered-address documents", copy: "Prepare the lease, owner’s consent, and house tax statement." },
+  { number: "07", title: "Prepare shareholder and governance documents", copy: "Documents may include the investment approval, articles, director and supervisor appointments, signed consents, CPA engagement, authenticated legal-entity evidence, representative appointment, passport copy, and CPA capital verification report." },
 ];
 
 export const taxPlanningZh: ArticleSection[] = [
@@ -271,7 +388,7 @@ export const taxPlanningEn: ArticleSection[] = [
 export const gptFaqZh = [
   ["甚麼是營利事業所得稅？", "營利事業所得稅是對公司或個體營業者在一定期間內，從事商業、工業、農業、專業或其他營利活動所得淨利的課稅。"],
   ["如何計算營利事業的應納稅所得額？", "應納稅所得額是以營利事業的總收入扣除免稅所得、各項允許扣除的支出及損失後的餘額。"],
-  ["個人所得稅的稅率是多少？", "個人所得稅的稅率是依據累進稅率制度計算，根據所得範圍分為數檔，稅率從5%到45%不等。"],
+  ["個人所得稅的稅率是多少？", "台灣居住者綜合所得稅採累進稅率，依課稅所得級距適用 5% 至 40%；實際稅額仍應依申報年度規定與個人情況計算。"],
   ["何謂增值稅及其稅率？", "增值稅是對貨物或勞務銷售價格所加徵的稅，台灣的增值稅稅率為5%。"],
   ["什麼是二代健保費及其計算方式？", "二代健保費是指除了健保費外，對個人年所得超過一定門檻的部分加徵的健保補充保費，計算方式是將超過門檻的所得乘以補充保費率。"],
   ["營業稅和營利事業所得稅有何不同？", "營業稅是對銷售貨物或勞務的營業額徵收的稅，而營利事業所得稅則是對營利事業的淨利徵收的稅。"],
@@ -284,7 +401,7 @@ export const gptFaqZh = [
 export const gptFaqEn = [
   ["What is Profit-seeking Enterprise Income Tax?", "Profit-seeking Enterprise Income Tax is a tax imposed on the net profits earned by companies or individual business operators from commercial, industrial, agricultural, professional, or other profit-making activities within a certain period."],
   ["How is the taxable income of a profit-seeking enterprise calculated?", "The taxable income is calculated as the total income of the profit-seeking enterprise minus exempt income, allowable deductions of expenses, and losses."],
-  ["What are the tax rates for Individual Income Tax?", "The tax rates for Individual Income Tax are based on a progressive tax system, ranging from 5% to 45% depending on the income bracket."],
+  ["What are the tax rates for Individual Income Tax?", "Taiwan resident individual income tax uses progressive rates from 5% to 40%, depending on the applicable tax-year brackets and the taxpayer’s circumstances."],
   ["What is Value-Added Tax and its rate?", "Value-Added Tax (VAT) is a tax imposed on the selling price of goods or services, with a standard rate of 5% in Taiwan."],
   ["What is the second-generation National Health Insurance (NHI) premium and how is it calculated?", "The second-generation NHI premium refers to a supplementary premium levied on individuals whose annual income exceeds a certain threshold, calculated by applying the supplementary premium rate to the income exceeding the threshold."],
   ["How do Business Tax and Profit-seeking Enterprise Income Tax differ?", "Business Tax is levied on the business turnover from the sale of goods or services, whereas Profit-seeking Enterprise Income Tax is levied on the net profits of a profit-seeking enterprise."],

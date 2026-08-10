@@ -13,6 +13,11 @@ const eslintConfig = defineConfig([
     "dist/**",
     "out/**",
     "build/**",
+    ".agents/**",
+    ".codex/**",
+    ".github/agents/**",
+    ".github/hooks/**",
+    ".github/skills/**",
     "next-env.d.ts",
   ]),
   eslint.configs.recommended,
@@ -34,6 +39,9 @@ const eslintConfig = defineConfig([
       react: {
         version: "detect",
       },
+    },
+    rules: {
+      "jsx-a11y/no-noninteractive-tabindex": ["error", { tags: ["section"] }],
     },
   },
 ]);

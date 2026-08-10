@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const root = new URL("../dist/client/", import.meta.url);
@@ -52,15 +52,13 @@ test("exports the original Yiita browser and Apple icons", async () => {
 
 test("exports all main service routes and brand assets", async () => {
   await Promise.all([
-    "services.html", "registeration-services.html", "company-register-docs.html",
-    "business-types.html", "registeration-process.html", "foreign-invest-comparison.html",
+    "services.html", "registration-services.html", "registeration-services.html", "company-register-docs.html",
+    "business-types.html", "registration-process.html", "registeration-process.html", "foreign-invest-comparison.html",
     "startup-register.html", "foreign-register-process.html", "tax-planning.html",
-    "accounting-gpts.html", "contact-us.html", "pricing.html", "service-schedule.html",
-    "%E9%97%9C%E6%96%BC.html", "%E5%89%AF%E6%9C%AC-people.html", "careers.html", "news.html",
-    "關於.html", "關於/index.html", "副本-people.html", "副本-people/index.html",
-    "en.html", "en/services.html", "en/registeration-services.html",
+    "accounting-gpts.html", "contact-us.html", "news.html",
+    "en.html", "en/services.html", "en/registration-services.html", "en/registeration-services.html",
     "en/company-register-docs.html", "en/business-types.html",
-    "en/registeration-process.html", "en/foreign-invest-comparison.html",
+    "en/registration-process.html", "en/registeration-process.html", "en/foreign-invest-comparison.html",
     "en/startup-register.html", "en/foreign-register-process.html",
     "en/tax-planning.html", "en/accounting-gpts.html", "en/contact-us.html",
     "images/yiita-logo.avif",
@@ -83,11 +81,15 @@ test("contact page keeps direct, serverless contact options", async () => {
 
 test("contact form offers webmail and copy fallbacks", async () => {
   const html = await readFile(new URL("contact-us.html", root), "utf8");
-  assert.match(html, /準備寄信方式/);
+  assert.match(html, /檢查並選擇寄送方式/);
+  assert.match(html, /完成檢查並選擇 Email 寄送方式前，不會送出任何內容/);
+  assert.match(html, /開啟 Email App/);
   assert.match(html, /使用 Gmail/);
   assert.match(html, /使用 Outlook/);
-  assert.match(html, /使用裝置 Email/);
   assert.match(html, /複製 Email 內容/);
+  assert.match(html, /maxLength|maxlength/);
+  assert.match(html, /class="emailOptions" hidden="" tabindex="-1"/);
+  assert.equal((html.match(/aria-disabled="true" tabindex="-1"/g) || []).length, 3);
 });
 
 test("English navigation exposes both dropdowns and an English GPTs page", async () => {
@@ -121,23 +123,56 @@ test("foreign investment comparison keeps the complete original table", async ()
   }
 });
 
+test("comparison pages offer a decision-first path before the full tables", async () => {
+  const [businessZh, businessEn, foreignZh, foreignEn, documentsZh] = await Promise.all([
+    readFile(new URL("business-types.html", root), "utf8"),
+    readFile(new URL("en/business-types.html", root), "utf8"),
+    readFile(new URL("foreign-invest-comparison.html", root), "utf8"),
+    readFile(new URL("en/foreign-invest-comparison.html", root), "utf8"),
+    readFile(new URL("company-register-docs.html", root), "utf8"),
+  ]);
+
+  assert.match(businessZh, /href="#business-structure-guide"/);
+  assert.match(businessZh, /id="business-structure-guide"/);
+  assert.match(businessZh, /先從你的情況開始/);
+  assert.match(businessEn, /Start with your situation/);
+  assert.match(foreignZh, /href="#foreign-setup-guide"/);
+  assert.match(foreignZh, /先確認在台灣要進行的活動/);
+  assert.match(foreignEn, /Start with the role you need in Taiwan/);
+  assert.ok(businessZh.indexOf("business-structure-guide") < businessZh.indexOf("business-types-table"));
+  assert.ok(foreignZh.indexOf("foreign-setup-guide") < foreignZh.indexOf("foreign-company-table"));
+
+  for (const html of [businessZh, foreignZh, documentsZh]) {
+    assert.match(html, /在手機上可左右滑動，查看完整比較/);
+  }
+  for (const html of [businessEn, foreignEn]) {
+    assert.match(html, /On mobile, scroll sideways to compare every column/);
+  }
+  assert.match(businessZh, /id="business-types-table"[^>]*tabindex="0"[^>]*aria-describedby="business-types-table-scroll-hint"/);
+  assert.match(foreignEn, /id="foreign-company-table"[^>]*tabindex="0"[^>]*aria-describedby="foreign-company-table-scroll-hint"/);
+});
+
+test("compiled table styles cover every viewport where the tables overflow", async () => {
+  const cssDirectory = new URL("_next/static/css/", root);
+  const cssFiles = (await readdir(cssDirectory)).filter((file) => file.endsWith(".css"));
+  const css = (await Promise.all(cssFiles.map((file) => readFile(new URL(file, cssDirectory), "utf8")))).join("\n");
+  assert.match(css, /@media \(max-width:720px\)/);
+  assert.match(css, /tableScrollHint[^}]*position:static/);
+  assert.match(css, /tableWrap th:first-child[^}]*position:sticky/);
+});
+
 test("Chinese pages preserve the original long-form content", async () => {
   const expectedMarkers = {
     "services.html": ["代購並寄送新一期發票", "洽詢乙達記帳士事務所"],
-    "registeration-services.html": ["菸類輸入業", "特定寵物服務業", "勞健保投保單位成立"],
-    "company-register-docs.html": ["名稱預查輔助查詢", "全部預估所需時間：公司 20 工作天"],
-    "business-types.html": ["負責人限制出境金額", "盈餘分配", "未分配之盈餘需加徵10%"],
-    "registeration-process.html": ["設立流程 6 步驟", "雇用員工勞健保"],
+    "registration-services.html": ["菸類輸入業", "特定寵物服務業", "勞健保投保單位成立"],
+    "company-register-docs.html": ["名稱預查輔助查詢", "一般預估時間：公司 20 個工作天"],
+    "business-types.html": ["負責人限制出境金額", "盈餘分配", "未分配盈餘原則上加徵 5%"],
+    "registration-process.html": ["設立流程 6 步驟", "雇用員工勞健保"],
     "startup-register.html": ["有限公司設立作業流程", "會計師資本額查核簽證委託書"],
     "foreign-register-process.html": ["外國人統一證號基資表", "法人代表指派書"],
     "tax-planning.html": ["包稅制", "交際費限額提高", "盈虧可互抵"],
     "accounting-gpts.html": ["Top 10 常見問與答", "什麼是二代健保費及其計算方式", "乙達記帳士事務所 專人"],
     "contact-us.html": ["協助您實現財務成功和業務增長"],
-    "%E9%97%9C%E6%96%BC.html": ["People", "Partners", "Associates"],
-    "%E5%89%AF%E6%9C%AC-people.html": ["People", "Partners", "Associates"],
-    "careers.html": ["Your Legal Career Starts Here", "Law Students / Summer Interns", "Paralegals / Staff"],
-    "service-schedule.html": ["服務時程"],
-    "pricing.html": ["服務收費"],
     "news.html": ["News &amp; Articles", "此語言尚未有已發佈之文章"],
   };
 
@@ -147,17 +182,17 @@ test("Chinese pages preserve the original long-form content", async () => {
   }
 });
 
-test("English pages preserve the original English copy and intentionally bilingual tables", async () => {
+test("English pages contain complete English decision content", async () => {
   const expectedMarkers = {
     "en.html": ["Regardless of your inquiries pertaining to finance", "Customers from 15+ countries", "Immediate Inquiry to Yiita"],
-    "en/services.html": ["Purchase and Ship Latest Invoices", "Contact Yiita Accounting &amp; Booking Service"],
-    "en/registeration-services.html": ["Tobacco Import Business", "Specific Pet Services", "Establishment of Labor and Health Insurance Coverage Unit"],
-    "en/company-register-docs.html": ["Documents required for company establishment", "名稱預查輔助查詢"],
-    "en/business-types.html": ["Differences Between Company and Sole Proprietorship", "盈餘分配"],
-    "en/registeration-process.html": ["Establishment Process in 6 Steps", "雇用員工勞健保"],
-    "en/foreign-invest-comparison.html": ["Foreign Investment Comparison", "證券投資開戶", "發展及限制"],
-    "en/startup-register.html": ["Startup Registration", "有限公司設立作業流程"],
-    "en/foreign-register-process.html": ["Application Process (Foreign Currency Investment)", "外國人統一證號基資表"],
+    "en/services.html": ["Purchase and Ship Latest Invoices", "Contact Yiita Accounting &amp; Bookkeeping Service"],
+    "en/registration-services.html": ["Tobacco Import Business", "Specific Pet Services", "Establishment of Labor and Health Insurance Coverage Unit"],
+    "en/company-register-docs.html": ["Documents required for company establishment", "Company name availability search"],
+    "en/business-types.html": ["Differences Between Company and Sole Proprietorship", "Earnings distribution"],
+    "en/registration-process.html": ["Establishment Process in 6 Steps", "Arrange labor and health insurance for employees"],
+    "en/foreign-invest-comparison.html": ["Foreign Investment Comparison", "May open a securities investment account", "Development and limitations"],
+    "en/startup-register.html": ["Startup Registration", "Limited company formation process"],
+    "en/foreign-register-process.html": ["Application Process (Foreign Currency Investment)", "Taiwan identification-number record"],
     "en/tax-planning.html": ["Document-Based Review", "Accountant-Certified Filing", "Increased entertainment expense limit"],
     "en/accounting-gpts.html": ["Top 10 FAQ", "What is Property Transaction Income Tax?", "Only available for ChatGPT Plus"],
     "en/contact-us.html": ["helping you achieve financial success and business growth"],
@@ -166,5 +201,38 @@ test("English pages preserve the original English copy and intentionally bilingu
   for (const [file, markers] of Object.entries(expectedMarkers)) {
     const html = await readFile(artifactUrl(file), "utf8");
     for (const marker of markers) assert.ok(html.includes(marker), `${file} is missing: ${marker}`);
+    assert.doesNotMatch(html, /名稱預查|比較項目|營業稅稅率|外國人統一證號基資表/);
   }
+});
+
+test("does not publish unfinished template routes", async () => {
+  for (const file of [
+    "pricing.html",
+    "service-schedule.html",
+    "careers.html",
+    "%E9%97%9C%E6%96%BC.html",
+    "%E5%89%AF%E6%9C%AC-people.html",
+  ]) {
+    await assert.rejects(access(artifactUrl(file)), `${file} should not be exported`);
+  }
+});
+
+test("English pages expose an English content language and corrected current tax figures", async () => {
+  const [en, comparison, startup] = await Promise.all([
+    readFile(new URL("en.html", root), "utf8"),
+    readFile(new URL("en/foreign-invest-comparison.html", root), "utf8"),
+    readFile(new URL("en/startup-register.html", root), "utf8"),
+  ]);
+  assert.match(en, /<html lang="en"/);
+  assert.match(en, /class="siteShell" lang="en"/);
+  assert.match(en, /<meta property="og:locale" content="en_US"/);
+  assert.match(en, /<meta property="og:title" content="Yiita Accounting &amp; Bookkeeping Service"/);
+  assert.doesNotMatch(en, /<meta name="twitter:description" content="您專業負責的財務夥伴"/);
+  assert.doesNotMatch(en, /asily Solve/);
+  assert.match(comparison, /Profit-seeking enterprise income tax rate/);
+  assert.match(comparison, />20%</);
+  assert.match(comparison, />21% unless an applicable tax treaty/);
+  assert.match(comparison, /Additional tax on undistributed earnings/);
+  assert.match(comparison, />5%</);
+  assert.equal((startup.match(/Pay in the subscribed capital/g) || []).length, 1);
 });
