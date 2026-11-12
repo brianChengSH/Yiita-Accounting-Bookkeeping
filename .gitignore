@@ -38,3 +38,17 @@ yarn-error.log*
 /.wrangler/
 /outputs/
 /work/
+
+# Local environment, credentials, and system files
+.env
+.env.*
+!.env.example
+!.env.sample
+.secrets/
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+id_rsa
+id_ed25519

@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-08T14:58:21Z",
+  "title": "Design System: 乙達記帳士事務所",
+  "extensions": {
+    "colorMeta": {
+      "business-charcoal": {
+        "role": "neutral",
+        "displayName": "商務炭黑",
+        "canonical": "#30302f",
+        "tonalRamp": ["oklch(15% 0.003 90)", "oklch(25% 0.003 90)", "oklch(35% 0.003 90)", "oklch(45% 0.003 90)", "oklch(60% 0.003 90)", "oklch(72% 0.003 90)", "oklch(84% 0.003 90)", "oklch(95% 0.003 90)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "正文墨色",
+        "canonical": "#1b1b1a",
+        "tonalRamp": ["oklch(15% 0.002 90)", "oklch(25% 0.002 90)", "oklch(35% 0.002 90)", "oklch(45% 0.002 90)", "oklch(60% 0.002 90)", "oklch(72% 0.002 90)", "oklch(84% 0.002 90)", "oklch(95% 0.002 90)"]
+      },
+      "warm-paper": {
+        "role": "neutral",
+        "displayName": "暖紙白",
+        "canonical": "#f4f1ea",
+        "tonalRamp": ["oklch(15% 0.012 85)", "oklch(25% 0.012 85)", "oklch(35% 0.012 85)", "oklch(45% 0.012 85)", "oklch(60% 0.012 85)", "oklch(72% 0.012 85)", "oklch(84% 0.012 85)", "oklch(95% 0.012 85)"]
+      },
+      "quiet-champagne-gold": {
+        "role": "primary",
+        "displayName": "低調香檳金",
+        "canonical": "#b29a66",
+        "tonalRamp": ["oklch(15% 0.08 85)", "oklch(25% 0.08 85)", "oklch(35% 0.08 85)", "oklch(45% 0.08 85)", "oklch(60% 0.08 85)", "oklch(72% 0.08 85)", "oklch(84% 0.08 85)", "oklch(95% 0.08 85)"]
+      },
+      "contact-cyan": {
+        "role": "secondary",
+        "displayName": "聯絡青藍",
+        "canonical": "#009eb8",
+        "tonalRamp": ["oklch(15% 0.13 215)", "oklch(25% 0.13 215)", "oklch(35% 0.13 215)", "oklch(45% 0.13 215)", "oklch(60% 0.13 215)", "oklch(72% 0.13 215)", "oklch(84% 0.13 215)", "oklch(95% 0.13 215)"]
+      },
+      "dividing-line": {
+        "role": "neutral",
+        "displayName": "柔和分隔線",
+        "canonical": "#d8d2c7",
+        "tonalRamp": ["oklch(15% 0.012 80)", "oklch(25% 0.012 80)", "oklch(35% 0.012 80)", "oklch(45% 0.012 80)", "oklch(60% 0.012 80)", "oklch(72% 0.012 80)", "oklch(84% 0.012 80)", "oklch(95% 0.012 80)"]
+      },
+      "muted-copy": {
+        "role": "neutral",
+        "displayName": "安靜灰字",
+        "canonical": "#686761",
+        "tonalRamp": ["oklch(15% 0.01 85)", "oklch(25% 0.01 85)", "oklch(35% 0.01 85)", "oklch(45% 0.01 85)", "oklch(60% 0.01 85)", "oklch(72% 0.01 85)", "oklch(84% 0.01 85)", "oklch(95% 0.01 85)"]
+      },
+      "pure-white": {
+        "role": "neutral",
+        "displayName": "純白",
+        "canonical": "#ffffff",
+        "tonalRamp": ["oklch(15% 0 0)", "oklch(25% 0 0)", "oklch(35% 0 0)", "oklch(45% 0 0)", "oklch(60% 0 0)", "oklch(72% 0 0)", "oklch(84% 0 0)", "oklch(95% 0 0)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "大型頁面標題與主要進入點。" },
+      "headline": { "displayName": "Headline", "purpose": "首頁功能敘述與主要區段標題。" },
+      "title": { "displayName": "Title", "purpose": "卡片、表單選項與服務項目標題。" },
+      "body": { "displayName": "Body", "purpose": "中英文服務說明、流程與比較內容。" },
+      "label": { "displayName": "Label", "purpose": "眉題、欄位標籤與微型分類訊號。" }
+    },
+    "shadows": [
+      { "name": "sticky-navigation", "value": "0 2px 12px #0002", "purpose": "讓置頂導覽在捲動時與內容分離。" },
+      { "name": "dropdown-overlay", "value": "0 16px 28px #0004", "purpose": "標示桌面下拉選單的覆層關係。" },
+      { "name": "mobile-menu-overlay", "value": "0 14px 28px #0005", "purpose": "標示窄螢幕展開導覽的覆層關係。" },
+      { "name": "floating-contact", "value": "0 7px 20px #0003", "purpose": "維持固定聯絡入口的可見度。" },
+      { "name": "field-focus-ring", "value": "0 0 0 2px #b29a6633", "purpose": "提供不改變版面尺寸的欄位焦點提示。" }
+    ],
+    "motion": [
+      { "name": "action-transition", "value": "transform 200ms ease, background 200ms ease, color 200ms ease", "purpose": "按鈕與導覽狀態的短促回饋。" },
+      { "name": "button-lift", "value": "translateY(-2px)", "purpose": "滑鼠懸停於可互動按鈕時的輕微上移。" },
+      { "name": "reduced-motion", "value": "prefers-reduced-motion: reduce", "purpose": "停用平滑捲動與轉場，保留完整可理解性。" }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "640px" },
+      { "name": "compact", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Solid Action Button",
+      "kind": "button",
+      "refersTo": "button-solid",
+      "description": "主要送出與前進動作的炭黑實心按鈕。",
+      "html": "<button class=\"ds-btn-solid\">準備寄信方式</button>",
+      "css": ".ds-btn-solid { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 0 26px; border: 1px solid var(--charcoal, #30302f); border-radius: 0; background: var(--charcoal, #30302f); color: #fff; font: inherit; letter-spacing: .04em; cursor: pointer; transition: transform .2s ease, background .2s ease, color .2s ease; } .ds-btn-solid:hover { transform: translateY(-2px); } .ds-btn-solid:focus-visible { outline: 2px solid var(--gold, #b29a66); outline-offset: 3px; } .ds-btn-solid:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Secondary Action Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "同一動作群組中較低優先的白底替代選項。",
+      "html": "<button class=\"ds-btn-secondary\">使用 Outlook</button>",
+      "css": ".ds-btn-secondary { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 0 26px; border: 1px solid #8d897f; border-radius: 0; background: #fff; color: var(--charcoal, #30302f); font: inherit; letter-spacing: .04em; cursor: pointer; transition: transform .2s ease, background .2s ease, color .2s ease; } .ds-btn-secondary:hover { transform: translateY(-2px); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--gold, #b29a66); outline-offset: 3px; } .ds-btn-secondary:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Hero Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "深色影像面板上的透明反白聯絡按鈕。",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">聯絡乙達</a>",
+      "css": ".ds-btn-outline { min-width: 150px; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 0 26px; border: 1px solid #fff; border-radius: 0; background: transparent; color: #fff; text-decoration: none; letter-spacing: .04em; transition: transform .2s ease, background .2s ease, color .2s ease; } .ds-btn-outline:hover { transform: translateY(-2px); background: #fff; color: #222; } .ds-btn-outline:focus-visible { outline: 2px solid var(--gold, #b29a66); outline-offset: 3px; } .ds-btn-outline:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Contact Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "直角白底的聯絡表單欄位。",
+      "html": "<label class=\"ds-field-label\">Email<input class=\"ds-field\" type=\"email\" placeholder=\"name@example.com\"></label>",
+      "css": ".ds-field-label { display: grid; gap: 5px; color: #504f4b; font: 13px/1.7 Arial, sans-serif; } .ds-field { width: 100%; padding: 11px 12px; border: 1px solid #aaa69c; border-radius: 0; background: #fff; color: var(--ink, #1b1b1a); font: inherit; outline: none; } .ds-field:hover { border-color: #8d897f; } .ds-field:focus-visible { border-color: #6b6048; box-shadow: 0 0 0 2px #b29a6633; }"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-bar",
+      "description": "緊湊炭黑底的主要導覽與語言切換。",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-active\" href=\"#\">首頁</a><a class=\"ds-nav-link\" href=\"#\">公司登記介紹</a><a class=\"ds-nav-link ds-language\" href=\"#\">English</a></nav>",
+      "css": ".ds-nav { min-height: 45px; display: flex; justify-content: flex-end; align-items: stretch; background: var(--charcoal, #30302f); box-shadow: 0 2px 12px #0002; font: 14px/1.7 Arial, sans-serif; } .ds-nav-link { min-height: 45px; display: flex; align-items: center; justify-content: center; padding: 0 27px; color: #eee; text-decoration: none; letter-spacing: .03em; transition: color .2s ease, background .2s ease; } .ds-nav-link:hover, .ds-nav-link.ds-active { color: #d9c48f; background: #262625; } .ds-nav-link:focus-visible { outline: 2px solid var(--gold, #b29a66); outline-offset: -3px; } .ds-language { background: #f6f6f4; color: #333; }"
+    },
+    {
+      "name": "Information Tile",
+      "kind": "card",
+      "refersTo": "content-card",
+      "description": "用直角細框承載服務與登記資訊的平面卡片。",
+      "html": "<article class=\"ds-info-tile\"><b>01</b><h2>公司與行號設立</h2><p>由乙達協助確認應備文件、申辦流程與預估時程。</p></article>",
+      "css": ".ds-info-tile { min-height: 245px; padding: 34px; border: 1px solid var(--line, #d8d2c7); border-radius: 0; background: #fff; color: var(--ink, #1b1b1a); font: 16px/1.7 Arial, sans-serif; } .ds-info-tile b { color: var(--gold, #b29a66); font-size: 12px; letter-spacing: .15em; } .ds-info-tile h2 { margin: 45px 0 8px; font-size: 24px; font-weight: 400; } .ds-info-tile p { margin: 0; color: var(--muted, #686761); }"
+    },
+    {
+      "name": "Process Step",
+      "kind": "card",
+      "refersTo": "content-card",
+      "description": "以金色 Georgia 數字建立順序的流程卡片。",
+      "html": "<article class=\"ds-step\"><span>01</span><p>確認需求並準備相關文件</p></article>",
+      "css": ".ds-step { min-height: 180px; padding: 34px; border: 1px solid var(--line, #d8d2c7); border-radius: 0; background: #fff; color: var(--ink, #1b1b1a); font: 16px/1.7 Arial, sans-serif; } .ds-step span { color: var(--gold, #b29a66); font: 500 35px/1 Georgia, serif; } .ds-step p { margin: 10px 0 0; font-size: 17px; }"
+    },
+    {
+      "name": "Gold Edge Callout",
+      "kind": "custom",
+      "description": "用暖紙色表面與左側金線標示重要補充資訊。",
+      "html": "<p class=\"ds-callout\"><strong>預估流程：</strong>實際時程依個案與主管機關審查為準。</p>",
+      "css": ".ds-callout { padding: 20px 24px; border: 0; border-left: 4px solid var(--gold, #b29a66); border-radius: 0; background: var(--paper, #f4f1ea); color: var(--ink, #1b1b1a); font: 16px/1.7 Arial, sans-serif; }"
+    },
+    {
+      "name": "Floating Contact",
+      "kind": "button",
+      "description": "唯一持續使用青藍實心底的固定聯絡入口。",
+      "html": "<a class=\"ds-floating-contact\" href=\"#\">立即展開交談</a>",
+      "css": ".ds-floating-contact { display: inline-flex; align-items: center; justify-content: center; padding: 15px 23px; border: 0; border-radius: 0; background: var(--cyan, #009eb8); color: #fff; box-shadow: 0 7px 20px #0003; text-decoration: none; font: 16px/1.7 Arial, sans-serif; transition: transform .2s ease; } .ds-floating-contact:hover { transform: translateY(-2px); } .ds-floating-contact:focus-visible { outline: 2px solid #fff; outline-offset: 3px; } .ds-floating-contact:active { transform: translateY(0); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "跨境商務會客室",
+    "overview": "乙達的視覺系統像一間可靠的跨境商務會客室：深色導覽與清楚的資訊結構建立專業秩序，暖紙色表面和低調金色則讓嚴肅的會計主題保有人情味。它不是傳統政府網站式的行政公文，也不使用可愛插畫來淡化專業，而是用平靜、直接的方式協助不同語言與背景的訪客做出下一步決定。\n\n整體氣質沉穩、精準、親和。大面積中性色、方正元件與克制陰影提供可信度；攝影、品牌 Logo 和少量金色保留質感；青藍色只在需要立即聯絡的行動上提高辨識度。畫面維持適中的資訊密度，既能承載流程與比較表，也不讓商務內容顯得擁擠。",
+    "keyCharacteristics": [
+      "炭黑、暖紙白與純白構成穩定的專業基底。",
+      "低調香檳金標示眉題、步驟與重要邊線，不作大面積裝飾。",
+      "聯絡青藍專屬於高可見度的聯絡行動。",
+      "方正、無圓角的元件建立精準與秩序；圓形只用於旗幟、流程節點與識別標記。",
+      "中英文共用同一套結構、層級與互動語言。"
+    ],
+    "rules": [
+      { "name": "The Rare Gold Rule", "body": "金色只應出現在少量、可解釋的提示位置；稀少本身就是質感來源。", "section": "colors" },
+      { "name": "The Contact Cyan Rule", "body": "青藍只代表高優先聯絡行動，不得散落成一般裝飾色。", "section": "colors" },
+      { "name": "The Weight Without Ornament Rule", "body": "專業感來自清楚層級、留白與一致字重，不靠裝飾字體或過度粗黑標題。", "section": "typography" },
+      { "name": "The Bounded Reading Rule", "body": "商務內容永遠置於可閱讀的有限寬度中；只有手機首頁的影像敘事區可以刻意滿寬。", "section": "layout" },
+      { "name": "The Lift Only On Intent Rule", "body": "陰影只服務覆層、黏附或焦點狀態；靜態內容卡片保持平坦。", "section": "elevation" },
+      { "name": "The Square Default Rule", "body": "新元件預設為直角；只有具有識別、序列或狀態意義的元素才能使用完整圓形。", "section": "shapes" }
+    ],
+    "dos": [
+      "Do 使用炭黑、暖紙白、純白和細灰線建立主要結構，再以少量金色提示重點。",
+      "Do 保持中英文頁面相同的層級、元件行為與響應式規則。",
+      "Do 使用現有 Logo、商務攝影和真實服務內容承載品牌可信度。",
+      "Do 讓資訊表格、流程與聯絡方式在手機上仍可閱讀和操作。",
+      "Do 保留 prefers-reduced-motion，並讓關鍵互動可在沒有動態效果時理解。"
+    ],
+    "donts": [
+      "Don't 把網站做成密集、僵硬、以公文格式為主的傳統政府網站。",
+      "Don't 使用可愛插畫、吉祥物或童趣圓角削弱專業服務定位。",
+      "Don't 大面積使用金色、青藍或其他高彩度顏色；每個強色必須有固定角色。",
+      "Don't 為靜態卡片加入無目的陰影、漸層玻璃或浮誇發光效果。",
+      "Don't 任意新增字體、圓角尺度或不一致的卡片樣式。"
+    ]
+  }
+}
